@@ -19,65 +19,63 @@ class ProductManager {
   }
 
   //Método agregar producto
-  addProduct(product) {
-    let arrayProductosEnArchivo = [];
+  async addProduct(product) {
+    this.products = [];
 
-    //Traemos a un Array todos los productos que estan en el archivo
-    this.getProducts()
-      .then((p) => {
-        p &&
-          p.map((item) => {
-            arrayProductosEnArchivo.push(item);
-          });
-      })
-      .then(() => {
-        //Validamos si es que el código de producto ya existe
-        const existeCodigo = arrayProductosEnArchivo.find(
-          (p) => p.code == product.code
-        )
-          ? true
-          : false;
+    try {
+      //Traemos a un Array todos los productos que estan en el archivo
+      const arrayProductos = await this.getProducts();
 
-        if (
-          !product.title ||
-          !product.description ||
-          !product.price ||
-          !product.thumbnail ||
-          !product.code ||
-          !product.stock
-        ) {
-          return console.log(
-            "Por favor completar los campos del producto a agregar."
-          );
-        }
-        // Si el código de producto no existe
-        if (existeCodigo == false) {
-          // y si es el primer producto dentro del array encontrado, entonces registrar con ID 1
-          if (arrayProductosEnArchivo.length == 0) {
-            this.products.push({ ...product, id: 1 });
-            this.grabarProductosEnArchivo(this.products);
+      console.log("Array de archivo", arrayProductos);
 
-            return console.log("Se agregó el producto correctamente.");
-          } else {
-            // Si el array traido del archivo tiene uno o más productos, entonces agreguemos el producto encontrado
-            arrayProductosEnArchivo.map((item) => {
-              this.products.push(item);
-            });
-            this.products.push({
-              ...product,
-              id: this.products[arrayProductosEnArchivo.length - 1].id + 1,
-            });
+      //Validamos si es que el código de producto ya existe
+      const existeCodigo = arrayProductos.find((p) => p.code == product.code)
+        ? true
+        : false;
+      if (
+        !product.title ||
+        !product.description ||
+        !product.price ||
+        !product.thumbnail ||
+        !product.code ||
+        !product.stock
+      ) {
+        return console.log(
+          "Por favor completar los campos del producto a agregar."
+        );
+      }
+      // Si el código de producto no existe
+      if (existeCodigo == false) {
+        // y si es el primer producto dentro del array encontrado, entonces registrar con ID 1
+        if ((await arrayProductos.length) == 0) {
+          this.products.push({ ...product, id: 1 });
+          await this.grabarProductosEnArchivo(this.products);
 
-            this.grabarProductosEnArchivo(this.products);
-
-            return console.log("Se agregó el producto correctamente.");
-          }
+          // console.log("ID igual a 1");
+          // console.log("Paso el primero");
+          return console.log("Se agregó el producto correctamente.");
         } else {
-          return console.log(
-            "No se puede crear el producto porque ya existe el código."
-          );
+          // Si el array traido del archivo tiene uno o más productos, entonces agreguemos el producto encontrado
+          await arrayProductos.map((item) => {
+            this.products.push(item);
+          });
+          this.products.push({
+            ...product,
+            id: this.products[(await arrayProductos.length) - 1].id + 1,
+          });
+
+          await this.grabarProductosEnArchivo(this.products);
+
+          return console.log("Se agregó el producto correctamente.");
         }
-      });
+      } else {
+        return console.log(
+          "No se puede crear el producto porque ya existe el código."
+        );
+      }
+    } catch (error) {
+      console.log("Hemos encontrado un error: ", error);
+    }
   }
 
   //Método para obtener todos los productos
@@ -102,11 +100,15 @@ class ProductManager {
 
   // Método para obtener un producto envando su ID como parámetro
   async getProductsById(id) {
-    const products = await this.getProducts();
-    const productById =
-      products.find((p) => p.id == id) ||
-      "No existe el código del productos que desea buscar.";
-    return productById;
+    try {
+      const products = await this.getProducts();
+      const productById =
+        products.find((p) => p.id == id) ||
+        "No existe el código del productos que desea buscar.";
+      return productById;
+    } catch (error) {
+      console.log("Hemos encontrado un error: ", error);
+    }
   }
 
   //Método para actualizar un producto dentro del archivo
@@ -144,47 +146,50 @@ class ProductManager {
 }
 
 //---->CÓDIGO PARA PRUEBAS DE FUNCIONAMIENTO<------
+const ejecutarEjemplo = async () => {
+  let prod = new ProductManager("./data/products.json");
 
-let prod = new ProductManager("./data/products.json");
+  //Probar el método addProduct
+  // await prod.addProduct({
+  //   title: "BMW 320i",
+  //   description: "vehículo",
+  //   price: 24000,
+  //   thumbnail: "url1",
+  //   code: "320i",
+  //   stock: 3,
+  // });
 
-//Probar el método addProduct
-// prod.addProduct({
-//   title: "BMW 320i",
-//   description: "vehículo",
-//   price: 24000,
-//   thumbnail: "url1",
-//   code: "320i",
-//   stock: 3,
-// });
+  // await prod.addProduct({
+  //   title: "BMW 316i",
+  //   description: "vehículo",
+  //   price: 18000,
+  //   thumbnail: "url2",
+  //   code: "316i",
+  //   stock: 5,
+  // });
 
-// prod.addProduct({
-//   title: "BMW 316i",
-//   description: "vehículo",
-//   price: 18000,
-//   thumbnail: "url2",
-//   code: "316i",
-//   stock: 5,
-// });
+  // await prod.addProduct({
+  //   title: "Audi S3",
+  //   description: "vehículo",
+  //   price: 32000,
+  //   thumbnail: "url3",
+  //   code: "AS3",
+  //   stock: 10,
+  // });
 
-prod.addProduct({
-  title: "Audi S3",
-  description: "vehículo",
-  price: 32000,
-  thumbnail: "url3",
-  code: "AS3",
-  stock: 10,
-});
+  //Probar el método updateProduct
+  // await prod.updateProduct(3, "code", "AUS3");
+  // await prod.updateProduct(3, "price", 52000);
+  // await prod.updateProduct(3, "xxx", 52000);
 
-// //Probar el método getProductsById
-// prod.getProductsById(2).then((e) => console.log(e));
+  //Probar el método getProductsById
+  // console.log(await prod.getProductsById(3));
 
-//Probar el método updateProduct
-// prod.updateProduct(3, "code", "AUS3");
-// prod.updateProduct(3, "price", 52000);
-// prod.updateProduct(3, "xxx", 52000);
+  //Probar el método getProducts
 
-//Probar el método getProducts
-// prod.getProducts().then((p) => console.log(p));
+  // console.log(await prod.getProducts());
 
-//Probar método deleteProduct
-// prod.deleteProduct(1);
+  //Probar método deleteProduct
+  // await prod.deleteProduct(1);
+};
+ejecutarEjemplo();
