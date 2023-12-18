@@ -26,8 +26,6 @@ class ProductManager {
       //Traemos a un Array todos los productos que estan en el archivo
       const arrayProductos = await this.getProducts();
 
-      console.log("Array de archivo", arrayProductos);
-
       //Validamos si es que el código de producto ya existe
       const existeCodigo = arrayProductos.find((p) => p.code == product.code)
         ? true
@@ -51,8 +49,6 @@ class ProductManager {
           this.products.push({ ...product, id: 1 });
           await this.grabarProductosEnArchivo(this.products);
 
-          // console.log("ID igual a 1");
-          // console.log("Paso el primero");
           return console.log("Se agregó el producto correctamente.");
         } else {
           // Si el array traido del archivo tiene uno o más productos, entonces agreguemos el producto encontrado
@@ -145,51 +141,45 @@ class ProductManager {
   }
 }
 
+module.exports = ProductManager;
+
 //---->CÓDIGO PARA PRUEBAS DE FUNCIONAMIENTO<------
 const ejecutarEjemplo = async () => {
-  let prod = new ProductManager("./data/products.json");
-
+  let prod = new ProductManager("./Desafio_3/data/products.json");
   //Probar el método addProduct
-  // await prod.addProduct({
-  //   title: "BMW 320i",
-  //   description: "vehículo",
-  //   price: 24000,
-  //   thumbnail: "url1",
-  //   code: "320i",
-  //   stock: 3,
-  // });
-
-  // await prod.addProduct({
-  //   title: "BMW 316i",
-  //   description: "vehículo",
-  //   price: 18000,
-  //   thumbnail: "url2",
-  //   code: "316i",
-  //   stock: 5,
-  // });
-
-  // await prod.addProduct({
-  //   title: "Audi S3",
-  //   description: "vehículo",
-  //   price: 32000,
-  //   thumbnail: "url3",
-  //   code: "AS3",
-  //   stock: 10,
-  // });
-
+  await prod.addProduct({
+    title: "BMW 320i",
+    description: "vehículo",
+    price: 24000,
+    thumbnail: "url1",
+    code: "320i",
+    stock: 3,
+  });
+  await prod.addProduct({
+    title: "BMW 316i",
+    description: "vehículo",
+    price: 18000,
+    thumbnail: "url2",
+    code: "316i",
+    stock: 5,
+  });
+  await prod.addProduct({
+    title: "Audi S3",
+    description: "vehículo",
+    price: 32000,
+    thumbnail: "url3",
+    code: "AS3",
+    stock: 10,
+  });
   //Probar el método updateProduct
   // await prod.updateProduct(3, "code", "AUS3");
   // await prod.updateProduct(3, "price", 52000);
   // await prod.updateProduct(3, "xxx", 52000);
-
   //Probar el método getProductsById
   // console.log(await prod.getProductsById(3));
-
   //Probar el método getProducts
-
   // console.log(await prod.getProducts());
-
   //Probar método deleteProduct
   // await prod.deleteProduct(1);
 };
-ejecutarEjemplo();
+// ejecutarEjemplo();

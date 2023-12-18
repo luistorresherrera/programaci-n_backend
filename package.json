@@ -1,0 +1,10 @@
+{
+  "description": "",
+  "scripts": {
+    "start": "node Desafio_3/src/app.js",
+    "dev": "node --watch Desafio_3/src/app.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
