@@ -1,7 +1,9 @@
 //---->CÓDIGO DEL EJERCICIO<------
 
 //importo FS
-const fs = require("fs").promises;
+import { promises } from "fs";
+const fs = promises;
+// const fs = require("fs").promises;
 
 //Creación de clase ProductManager
 class ProductManager {
@@ -107,79 +109,74 @@ class ProductManager {
     }
   }
 
-  //Método para actualizar un producto dentro del archivo
+  //Método para actualizar un producto dentro del archivo modificando solo un key y value
   async updateProduct(id, keybuscado, nuevoValor) {
-    //trae a un array los productos que estan en el archivo
-    const productosActuales = await this.getProducts();
-    //trae a un objeto el producto que ha sido seleccionado
-    const productoSeleccionado = await this.getProductsById(id);
-    //valida que el keybuscado para actualización realmente exista
-    const mapKeys = Object.keys(productoSeleccionado);
-    const existeKey = mapKeys.find((e) => e == keybuscado) ? true : false;
-    //valida que el ID exista en los productos registrados en el archivo
-    const existeId = productosActuales.find((e) => e.id == id) ? true : false;
-    //consigue el index del objeto seleccionado a través del ID
-    const index = productosActuales.findIndex((prod) => prod.id == id);
-    //si es que existe el ID y también el key para cambiarle el value, entonces actualizar el valor y agregarlo al array de productos en memoria
-    if (existeId && existeKey) {
-      productosActuales[index][keybuscado] = nuevoValor;
-      productosActuales.map((item) => {
-        this.products.push(item);
+    try {
+      //trae a un array los productos que estan en el archivo
+      const productosActuales = await this.getProducts();
+      //trae a un objeto el producto que ha sido seleccionado
+      const productoSeleccionado = await this.getProductsById(id);
+      //valida que el keybuscado para actualización realmente exista
+      const mapKeys = Object.keys(productoSeleccionado);
+      const existeKey = mapKeys.find((e) => e == keybuscado) ? true : false;
+      //valida que el ID exista en los productos registrados en el archivo
+      const existeId = productosActuales.find((e) => e.id == id) ? true : false;
+      //consigue el index del objeto seleccionado a través del ID
+      const index = productosActuales.findIndex((prod) => prod.id == id);
+      //si es que existe el ID y también el key para cambiarle el value, entonces actualizar el valor y agregarlo al array de productos en memoria
+      if (existeId && existeKey) {
+        productosActuales[index][keybuscado] = nuevoValor;
+        productosActuales.map((item) => {
+          this.products.push(item);
+        });
+        // grabar el array de productos en el archivo
+        this.grabarProductosEnArchivo(this.products);
+      } else {
+        console.log("No se pudo actualizar el producto");
+      }
+    } catch (error) {
+      console.log(`Hubo un error: ${error}`);
+    }
+  }
+
+  //Método para actualizar un producto dentro del archivo modificando todo el objeto
+  async updateCompleteProduct(id, modifierObject) {
+    try {
+      //trae a un array los productos que estan en el archivo
+      const productosActuales = await this.getProducts();
+
+      //consigue el index del objeto seleccionado a través del ID
+      const index = productosActuales.findIndex((prod) => prod.id == id);
+      const mapKeys = Object.keys(productosActuales[index]);
+      let count = 0;
+      mapKeys.map((item) => {
+        if (modifierObject[item] && item != "id" && item != "status") {
+          productosActuales[index][item] = modifierObject[item];
+          count++;
+        }
       });
-      // grabar el array de productos en el archivo
-      this.grabarProductosEnArchivo(this.products);
-    } else {
-      console.log("No se pudo actualizar el producto");
+      this.grabarProductosEnArchivo(productosActuales);
+      return `Se modificaron ${count} campos del producto con ID: ${id}`;
+    } catch (error) {
+      return `Hubo un error: ${error}`;
     }
   }
 
   //Método para borrar un producto
   async deleteProduct(id) {
-    const products = await this.getProducts();
-    const arrayYaEliminado = products.filter((item) => item.id !== id);
-    this.grabarProductosEnArchivo(arrayYaEliminado);
+    try {
+      const products = await this.getProducts();
+      const index = products.findIndex((prod) => prod.id == id);
+      if (products[index].status == 1) {
+        products[index].status = 0;
+        this.grabarProductosEnArchivo(products);
+        return `Se eliminó el producto con ID: ${id}`;
+      }
+      return `El producto con ID: ${id}, ya no existe.`;
+    } catch (error) {
+      return `Hubo un error: ${error}`;
+    }
   }
 }
 
-module.exports = ProductManager;
-
-//---->CÓDIGO PARA PRUEBAS DE FUNCIONAMIENTO<------
-const ejecutarEjemplo = async () => {
-  let prod = new ProductManager("./Desafio_3/data/products.json");
-  //Probar el método addProduct
-  await prod.addProduct({
-    title: "BMW 320i",
-    description: "vehículo",
-    price: 24000,
-    thumbnail: "url1",
-    code: "320i",
-    stock: 3,
-  });
-  await prod.addProduct({
-    title: "BMW 316i",
-    description: "vehículo",
-    price: 18000,
-    thumbnail: "url2",
-    code: "316i",
-    stock: 5,
-  });
-  await prod.addProduct({
-    title: "Audi S3",
-    description: "vehículo",
-    price: 32000,
-    thumbnail: "url3",
-    code: "AS3",
-    stock: 10,
-  });
-  //Probar el método updateProduct
-  // await prod.updateProduct(3, "code", "AUS3");
-  // await prod.updateProduct(3, "price", 52000);
-  // await prod.updateProduct(3, "xxx", 52000);
-  //Probar el método getProductsById
-  // console.log(await prod.getProductsById(3));
-  //Probar el método getProducts
-  // console.log(await prod.getProducts());
-  //Probar método deleteProduct
-  // await prod.deleteProduct(1);
-};
-// ejecutarEjemplo();
+export default ProductManager;
