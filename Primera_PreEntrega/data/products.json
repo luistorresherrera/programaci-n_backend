@@ -11,7 +11,7 @@
   },
   {
     "title": "BMW 316i",
-    "description": "Auto BMV",
+    "description": "5",
     "price": 22000,
     "thumbnail": "url2",
     "code": "BMW316i",
@@ -118,5 +118,15 @@
     "stock": "6",
     "status": 1,
     "id": 12
+  },
+  {
+    "title": "Tesla Y",
+    "description": "vehiculo",
+    "price": "75000",
+    "thumbnail": "url13",
+    "code": "TeslaY",
+    "stock": "3",
+    "status": 1,
+    "id": 13
   }
 ]

@@ -146,7 +146,9 @@ class ProductManager {
       const productosActuales = await this.getProducts();
 
       //consigue el index del objeto seleccionado a través del ID
-      const index = productosActuales.findIndex((prod) => prod.id == id);
+      const index = productosActuales.findIndex(
+        (prod) => prod.id == Number(id)
+      );
       const mapKeys = Object.keys(productosActuales[index]);
       let count = 0;
       mapKeys.map((item) => {
@@ -166,7 +168,7 @@ class ProductManager {
   async deleteProduct(id) {
     try {
       const products = await this.getProducts();
-      const index = products.findIndex((prod) => prod.id == id);
+      const index = products.findIndex((prod) => prod.id == Number(id));
       if (products[index].status == 1) {
         products[index].status = 0;
         this.grabarProductosEnArchivo(products);

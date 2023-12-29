@@ -14,11 +14,23 @@
       {
         "product": "1",
         "quantity": 4
+      },
+      {
+        "product": "2",
+        "quantity": 3
+      },
+      {
+        "product": "10",
+        "quantity": 1
       }
     ]
   },
   {
     "id": 3,
+    "products": []
+  },
+  {
+    "id": 4,
     "products": []
   }
 ]
