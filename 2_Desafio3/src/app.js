@@ -1,6 +1,7 @@
 const express = require("express");
 const ProductManager = require("./product_manager");
 const app = express();
+const fileData = "./data/products.json";
 
 //QUERY PARA TRAER PRODUCTOS CON LÍMITE DE ITEMS
 app.get("/products/query", (req, res) => {
@@ -16,7 +17,7 @@ app.get("/products/query", (req, res) => {
       return res.send([]);
       // En caso de ser el limite 1 o más, entonces buscar la cantidad de productos
     } else {
-      const prod = new ProductManager("./Desafio_3/data/products.json");
+      const prod = new ProductManager(fileData);
       const productosAMostrar = [];
       const mostrarProductos = async () => {
         const productosArchivados = await prod.getProducts();
@@ -26,7 +27,7 @@ app.get("/products/query", (req, res) => {
             ? parseInt(limit) - 1
             : productosArchivados.length - 1;
 
-        for (i = 0; i <= limite; i++) {
+        for (let i = 0; i <= limite; i++) {
           productosAMostrar.push(productosArchivados[i]);
         }
         return res.send(productosAMostrar);
@@ -40,7 +41,7 @@ app.get("/products/query", (req, res) => {
 
 //TRAER TODOS LOS PRODUCTOS POR PARAMETRO DE URL
 app.get("/products", (req, res) => {
-  const prod = new ProductManager("./Desafio_3/data/products.json");
+  const prod = new ProductManager(fileData);
   const mostrarProductos = async () => {
     res.send(await prod.getProducts());
   };
@@ -51,7 +52,7 @@ app.get("/products", (req, res) => {
 //TRAER UN PRODUCTOS ESPECÍFICO POR EL ID DEL PRODUCTO
 app.get("/products/:pid", (req, res) => {
   const { pid } = req.params;
-  const prod = new ProductManager("./Desafio_3/data/products.json");
+  const prod = new ProductManager(fileData);
 
   const mostrarProducto = async () => {
     res.send(await prod.getProductsById(pid));
@@ -60,7 +61,7 @@ app.get("/products/:pid", (req, res) => {
   mostrarProducto();
 });
 
-//ACTIVAR LA ESCUCHA DEL SERVIDOR EN EL PUERTO 8000
-app.listen(8000, () => {
-  console.log("Estoy escuchando en el puerto 8000");
+//ACTIVAR LA ESCUCHA DEL SERVIDOR EN EL PUERTO 8080
+app.listen(8080, () => {
+  console.log("Estoy escuchando en el puerto 8080");
 });

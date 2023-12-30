@@ -1,6 +1,6 @@
 import { Router } from "express";
 const router = Router();
-import ProductManager from "../../src/product_manager.js";
+import ProductManager from "../managers/product_manager.js";
 const fileData = "./data/products.json";
 
 //QUERY PARA TRAER PRODUCTOS CON LÍMITE DE ITEMS
@@ -89,5 +89,13 @@ router.delete("/:pid", async (req, res) => {
 
   res.send(await prod.deleteProduct(pid));
 });
+
+// //HACER QUE DESDE EL HOME, ACCEDA A TODOS LOS PRODUCTOS
+// router.delete("/:pid", async (req, res) => {
+//   const { pid } = req.params;
+//   const prod = new ProductManager(fileData);
+
+//   res.send(await prod.deleteProduct(pid));
+// });
 
 export default router;
