@@ -6,6 +6,7 @@ import __dirname from "./utils.js";
 import { Server as serverIO } from "socket.io";
 
 const app = express();
+const port = 8080;
 
 //PARA PODER LEER EL BODY
 app.use(express.json());
@@ -17,14 +18,14 @@ app.engine("handlebars", handlebars.engine());
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 
-//RENDERIZAR LA PAGINA PRINCIPAL (RAIZ DEL LOCALHOST)
+//RENDERIZAR LA PAGINA PRINCIPAL (RAIZ DEL LOCALHOST) -> Para el ejercicio redireccionará a home
 app.get("/", (req, res) => {
-  res.render("index");
+  res.render("home");
 });
 
-//RENDERIZAR LA HOME
-app.get("/home", (req, res) => {
-  res.render("home");
+//RENDERIZAR LA PAGINA DE REAL TIME PRODUCTS
+app.get("/realTimeProducts", (req, res) => {
+  res.render("realTimeProducts");
 });
 
 //USAR MIDDLEWARE PARA ROUTER DE PRODUCTOS
@@ -34,8 +35,8 @@ app.use("/api/products", productsRourter);
 app.use("/api/carts", cartsRouter);
 
 //ACTIVAR LA ESCUCHA DEL SERVIDOR HTTP EN EL PUERTO XXXX
-const httpServer = app.listen(8080, () => {
-  console.log("Hola, estoy escuchando en el puerto 8080");
+const httpServer = app.listen(port, () => {
+  console.log(`Hola, estoy escuchando en el puerto ${port}`);
 });
 
 //INICIANDO EL SERVIDOR SOCKET A PARTIR DEL SERVIDOR HTTP -> Configuración para usar socket del lado del servidor

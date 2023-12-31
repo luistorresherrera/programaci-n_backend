@@ -1,3 +1,99 @@
+* {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 h1 {
   text-align: center;
+}
+
+h2 {
+  text-align: center;
+}
+
+.managerContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background-color: red;
+  justify-content: space-between;
+}
+
+.managers {
+  display: flex;
+  flex-direction: row;
+  padding: 1%;
+  justify-content: space-between;
+}
+
+.addProductContainer {
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  background-color: green;
+  justify-content: space-between;
+}
+
+.deleteProductContainer {
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  background-color: yellow;
+}
+
+.totalContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  align-items: center;
+}
+
+.productContainer {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid gray;
+  background-color: rgb(247, 247, 247);
+  border-radius: 10px;
+  width: 800px;
+  height: auto;
+}
+
+.productImage {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: left;
+  align-items: center;
+  border: 1px solid gray;
+  border-radius: 10%px;
+  width: 300px !important;
+  height: auto;
+}
+
+.productImage img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.productInfo {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+  width: 50%;
+}
+
+.activationFlag {
+  padding: 5px;
+  border-radius: 5px;
+
+  color: white;
+  font-weight: bold;
 }
