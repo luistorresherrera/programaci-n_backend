@@ -69,7 +69,7 @@ const loadProducts = (obj) => {
             color: "green",
             text: "Activo",
             boton: "Eliminar",
-            onclick: "desactivar()",
+            onclick: `desactivar(${product.id})`,
           };
     };
     htmlProducts += `<div class="productContainer">
@@ -104,17 +104,15 @@ socket.on("sendProducts", async (data) => {
 
 //Eliminar productos
 
-const desactivar = async (event) => {
+const desactivar = async (prodID) => {
   try {
-    const response = await fetch(
-      `/api/products${Number(event.target.getAttribute("name"))}`,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    debugger;
+    const response = await fetch(`/api/products/${Number(prodID)}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     if (response.status == 200) {
       socket.emit("getProducts");
       alert("Se elimino el producto satisfactoriamente.");
