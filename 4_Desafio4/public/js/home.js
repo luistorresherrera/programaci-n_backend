@@ -25,9 +25,7 @@ const funcionGetProducts = async () => {
       <div><span><strong>Precio:</strong></span> USD ${product.price}</div>
       <div><span><strong>Stock:</strong></span> ${product.stock}</div>
       <div><span><strong>Código:</strong></span> ${product.code}</div>
-      <p class="activationFlag" style="background-color:${flag().color};">${
-      flag().text
-    }
+      <p class="activationFlag" style="color:${flag().color};">${flag().text}
         </p>
       </div>
     </div>`;

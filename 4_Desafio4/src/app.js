@@ -4,6 +4,7 @@ import cartsRouter from "./routes/carts.route.js";
 import handlebars from "express-handlebars";
 import __dirname from "./utils.js";
 import { Server as serverIO } from "socket.io";
+import ProductManager from "./managers/product_manager.js";
 
 const app = express();
 const port = 8080;
@@ -43,22 +44,29 @@ const httpServer = app.listen(port, () => {
 const socketServer = new serverIO(httpServer);
 
 socketServer.on("connection", (socket) => {
-  console.log("Un cliente se ha conectado");
-  socket.on("disconnect", () => {
-    console.log("Un cliente se ha desconectado");
-  });
-  // socket.emit("message-server", "Hola cliente");
-  // socket.on("message", (data) => {
-  //   console.log(data);
+  // console.log("Un cliente se ha conectado");
+  // socket.on("disconnect", () => {
+  //   console.log("Un cliente se ha desconectado");
   // });
 
-  socket.on("para-todos-menos-el-que-lo-mando", (data) => {
-    console.log(data);
+  socket.on("getProducts", async (data) => {
+    const prod = new ProductManager("./data/products.json");
+    const products = await prod.getProducts();
+    socket.emit("sendProducts", products);
   });
-
-  socket.broadcast.emit(
-    "para-todos-menos-el-que-lo-mando",
-    "Hola a todos menos el que lo mandó"
-  );
-  socketServer.emit("para-todos", "Hola a todos");
 });
+
+// socket.emit("message-server", "Hola cliente");
+// socket.on("message", (data) => {
+//   console.log(data);
+// });
+
+// socket.on("para-todos-menos-el-que-lo-mando", (data) => {
+//   console.log(data);
+// });
+
+// socket.broadcast.emit(
+//   "para-todos-menos-el-que-lo-mando",
+//   "Hola a todos menos el que lo mandó"
+// );
+// socketServer.emit("para-todos", "Hola a todos");
