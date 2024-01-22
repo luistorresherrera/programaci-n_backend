@@ -4,10 +4,14 @@ import cartsRouter from "./routes/carts.route.js";
 import handlebars from "express-handlebars";
 import __dirname from "./utils.js";
 import { Server as serverIO } from "socket.io";
-import ProductManager from "./managers/product_manager.js";
+import ProductManager from "./dao/FileSystem/product_manager.js";
+import connectDB from "./config/connectDB.js";
 
 const app = express();
 const port = 8080;
+
+//conexión a MongoDB
+connectDB();
 
 //PARA PODER LEER EL BODY
 app.use(express.json());

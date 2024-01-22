@@ -1,7 +1,9 @@
 import { Router } from "express";
 const router = Router();
-import ProductManager from "../managers/product_manager.js";
+import ProductManager from "../dao/FileSystem/product_manager.js";
 const fileData = "./data/products.json";
+import productModel from "../models/products.model.js";
+import MongoProductManager from "../dao/MongoDb/product_manager.js";
 
 //QUERY PARA TRAER PRODUCTOS CON LÍMITE DE ITEMS
 router.get("/query", async (req, res) => {
@@ -17,60 +19,73 @@ router.get("/query", async (req, res) => {
       );
     // En caso de ser el limite 1 o más, entonces buscar la cantidad de productos
   } else {
-    const prod = new ProductManager(fileData);
-    const productosAMostrar = [];
-
-    const productosArchivados = await prod.getProducts();
-    // si el límite es mayor a la longitud del array de objetos, entonces devuélveme la longitud del array como límite
-    let limite =
-      limit <= productosArchivados.length
-        ? parseInt(limit) - 1
-        : productosArchivados.length - 1;
-
-    for (let i = 0; i <= limite; i++) {
-      productosAMostrar.push(productosArchivados[i]);
+    try {
+      const products = await productModel.find({}).limit(limit);
+      res.status(200).send(products);
+    } catch (error) {
+      console.log(error);
     }
-    return res.status(200).send(productosAMostrar);
   }
 });
 
 //TRAER UN PRODUCTOS ESPECÍFICO POR EL ID DEL PRODUCTO
 router.get("/:pid", async (req, res) => {
   const { pid } = req.params;
-  const prod = new ProductManager(fileData);
 
-  res.send(await prod.getProductsById(pid));
+  try {
+    const products = await productModel.findOne({ id: pid });
+    res.status(200).send(products);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 //TRAER TODOS LOS PRODUCTOS POR PARAMETRO DE URL
 router.get("/", async (req, res) => {
-  const prod = new ProductManager(fileData);
-
-  res.send(await prod.getProducts());
+  try {
+    const products = await productModel.find({});
+    res.status(200).send(products);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 //TRAER TODOS LOS PRODUCTOS UTILIZANDO LOS PARAMETROS DE LA URL
 router.post("/", async (req, res) => {
-  const { title, description, price, thumbnail, code, stock } = req.query;
-  if (!title || !description || !price || !code || !stock) {
-    return res
-      .status(400)
-      .send(
-        "Debes colocar los campos title, description, price, thumbnail (opcional), code y stock para poder agregar el producto"
-      );
-  }
-  const prod = new ProductManager(fileData);
-  const productObject = {
-    title,
-    description,
-    price,
-    thumbnail,
-    code,
-    stock,
-    status: 1,
-  };
+  try {
+    const { title, description, price, thumbnail, code, stock } = req.query;
+    if (!title || !description || !price || !code || !stock) {
+      return res
+        .status(400)
+        .send(
+          "Debes colocar los campos title, description, price, thumbnail (opcional), code y stock para poder agregar el producto"
+        );
+    }
+    const prod = new MongoProductManager(fileData);
+    const productObject = {
+      title,
+      description,
+      price,
+      thumbnail,
+      code,
+      stock,
+      status: 1,
+    };
 
-  res.status(200).send(await prod.addProduct(productObject));
+    const mongoResult = await prod.addProduct(productObject);
+
+    res.status(200).send({ status: "success", detail: mongoResult });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//ACTIVAR PRODUCTO ELIMINADO
+router.put("/activate/:pid", async (req, res) => {
+  const { pid } = req.params;
+  const prod = new MongoProductManager(fileData);
+
+  res.send(await prod.activateProduct(pid));
 });
 
 //ACTUALIZAR UN PRODUCTO DESDE EL ID MODIFICANDO SUS CAMPOS QUE VIENEN EN BODY

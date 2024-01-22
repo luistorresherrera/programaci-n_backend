@@ -63,7 +63,7 @@ const loadProducts = (obj) => {
             color: "red",
             text: "Inactivo",
             boton: "Activar",
-            onclick: "activar()",
+            onclick: `activar(${product.id})`,
           }
         : {
             color: "green",
@@ -106,7 +106,6 @@ socket.on("sendProducts", async (data) => {
 
 const desactivar = async (prodID) => {
   try {
-    debugger;
     const response = await fetch(`/api/products/${Number(prodID)}`, {
       method: "DELETE",
       headers: {
@@ -124,6 +123,22 @@ const desactivar = async (prodID) => {
   }
 };
 
-const activar = () => {
-  alert("Todavía no tenemos la función de activación");
+const activar = async (prodID) => {
+  try {
+    console.log(`Hola ${prodID}`);
+    const response = await fetch(`/api/products/activate/${Number(prodID)}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (response.status == 200) {
+      socket.emit("getProducts");
+      alert("Se activó el producto satisfactoriamente.");
+    } else {
+      alert("No se pudo activar el producto.");
+    }
+  } catch (error) {
+    alert("Hubo un error: " + error);
+  }
 };

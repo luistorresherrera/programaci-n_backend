@@ -1,9 +1,9 @@
 import { Router } from "express";
 const router = Router();
-import CartManager from "../managers/cart_manager.js";
+import CartManager from "../dao/FileSystem/cart_manager.js";
 const fileData = "./data/carts.json";
 const fileDataProducts = "./data/products.json";
-import ProductManager from "../managers/product_manager.js";
+import ProductManager from "../dao/FileSystem/product_manager.js";
 
 // //TRAER TODOS LOS CARTS EXISTENTES
 router.get("/:cid", async (req, res) => {

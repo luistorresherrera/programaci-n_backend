@@ -7,7 +7,7 @@
     "code": "BMW318i",
     "stock": 3,
     "id": 1,
-    "status": 0
+    "status": 1
   },
   {
     "title": "BMW 316i",
@@ -17,7 +17,7 @@
     "code": "BMW316i",
     "stock": 5,
     "id": 2,
-    "status": 0
+    "status": 1
   },
   {
     "title": "BMW 320i",
@@ -116,17 +116,7 @@
     "thumbnail": "https://i.kinja-img.com/image/upload/c_fit,q_60,w_645/0bd54cdb773bf6f6b2baaf91351bd034.jpg",
     "code": "VolksGol",
     "stock": "6",
-    "status": 0,
+    "status": 1,
     "id": 13
-  },
-  {
-    "title": "sdf",
-    "description": "dsf",
-    "price": "23",
-    "thumbnail": "dsf",
-    "code": "23232",
-    "stock": "23",
-    "status": 0,
-    "id": 14
   }
 ]
