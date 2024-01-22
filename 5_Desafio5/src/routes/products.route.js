@@ -28,12 +28,13 @@ router.get("/query", async (req, res) => {
   }
 });
 
-//TRAER UN PRODUCTOS ESPECÍFICO POR EL ID DEL PRODUCTO
+//TRAER UN PRODUCTO ESPECÍFICO POR EL ID DEL PRODUCTO
 router.get("/:pid", async (req, res) => {
   const { pid } = req.params;
-
   try {
-    const products = await productModel.findOne({ id: pid });
+    const prod = new MongoProductManager();
+
+    const products = await prod.getProduct(pid);
     res.status(200).send(products);
   } catch (error) {
     console.log(error);
@@ -43,7 +44,8 @@ router.get("/:pid", async (req, res) => {
 //TRAER TODOS LOS PRODUCTOS POR PARAMETRO DE URL
 router.get("/", async (req, res) => {
   try {
-    const products = await productModel.find({});
+    const prod = new MongoProductManager();
+    const products = await prod.getProducts();
     res.status(200).send(products);
   } catch (error) {
     console.log(error);
@@ -61,7 +63,7 @@ router.post("/", async (req, res) => {
           "Debes colocar los campos title, description, price, thumbnail (opcional), code y stock para poder agregar el producto"
         );
     }
-    const prod = new MongoProductManager(fileData);
+    const prod = new MongoProductManager();
     const productObject = {
       title,
       description,
@@ -83,7 +85,7 @@ router.post("/", async (req, res) => {
 //ACTIVAR PRODUCTO ELIMINADO
 router.put("/activate/:pid", async (req, res) => {
   const { pid } = req.params;
-  const prod = new MongoProductManager(fileData);
+  const prod = new MongoProductManager();
 
   res.send(await prod.activateProduct(pid));
 });
@@ -92,7 +94,7 @@ router.put("/activate/:pid", async (req, res) => {
 router.put("/:pid", async (req, res) => {
   const { pid } = req.params;
   const modifierObject = req.body;
-  const prod = new ProductManager(fileData);
+  const prod = new MongoProductManager();
 
   res.send(await prod.updateCompleteProduct(pid, modifierObject));
 });
@@ -100,17 +102,9 @@ router.put("/:pid", async (req, res) => {
 //ELIMINAR PRODUCTO DEL CARRITO, ÚNICAMENTE CAMBIARÁ EL STATUS DE TRUE (1) A FALSE (0)
 router.delete("/:pid", async (req, res) => {
   const { pid } = req.params;
-  const prod = new ProductManager(fileData);
+  const prod = new MongoProductManager();
 
   res.send(await prod.deleteProduct(pid));
 });
-
-// //HACER QUE DESDE EL HOME, ACCEDA A TODOS LOS PRODUCTOS
-// router.delete("/:pid", async (req, res) => {
-//   const { pid } = req.params;
-//   const prod = new ProductManager(fileData);
-
-//   res.send(await prod.deleteProduct(pid));
-// });
 
 export default router;

@@ -2,6 +2,10 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
+body {
+  margin: 0px;
+}
+
 h1 {
   text-align: center;
 }
@@ -123,4 +127,63 @@ input {
   height: 30px;
   color: aliceblue;
   border-radius: 5px;
+}
+
+/* ESTILOS PARA CHAT EN TIEMPO REAL */
+.messagesContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.messagesArea {
+  height: 60vh;
+  width: 100%;
+
+  padding: 20px;
+  overflow: scroll;
+  display: flex;
+  flex-direction: column;
+}
+
+.inputMessage {
+  display: flex;
+
+  width: 90%;
+  height: 60px;
+
+  position: absolute;
+  bottom: 0;
+  justify-content: center;
+}
+
+.messagebox {
+  width: 90%;
+  height: 40px;
+  border-radius: 5px;
+  padding: 1%;
+}
+.ownMessageDialog {
+  margin-top: 5px;
+  align-self: start;
+  max-width: 50%;
+  width: auto;
+  height: auto;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: rgba(0, 255, 170, 0.5);
+  border: 1px solid black;
+}
+
+.otherMessageDialog {
+  margin-top: 5px;
+  align-self: end;
+  max-width: 50%;
+  width: auto;
+  height: auto;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: rgba(0, 210, 243, 0.515);
+  border: 1px solid black;
 }

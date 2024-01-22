@@ -2,10 +2,11 @@ import mongoose from "mongoose";
 
 const messagesCollection = "messages";
 const messagesSchema = new mongoose.Schema({
-  user: { type: String, required: true },
+  email: { type: String, required: true },
   message: { type: String, required: true },
+  id: { type: Number, required: true, unique: true },
 });
 
 const messageModel = mongoose.model(messagesCollection, messagesSchema);
 
-module.exports = { messageModel };
+export default messageModel;
