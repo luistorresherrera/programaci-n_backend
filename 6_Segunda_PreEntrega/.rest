@@ -1,0 +1,10 @@
+# Petición GET para traer todos los productos
+GET http://localhost:8080/api/products
+
+
+# Petición GET para traer un producto
+GET http://localhost:8080/api/products/3
+
+#Petición GET para traer todos los productos con límite de cantiad
+GET http://localhost:8080/api/products/query?limit=5
+

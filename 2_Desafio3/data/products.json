@@ -1,0 +1,92 @@
+[
+  {
+    "title": "BMW 318i",
+    "description": "Auto BMV",
+    "price": 18000,
+    "thumbnail": "url1",
+    "code": "BMW318i",
+    "stock": 3,
+    "id": 1
+  },
+  {
+    "title": "BMW 316i",
+    "description": "Auto BMV",
+    "price": 22000,
+    "thumbnail": "url2",
+    "code": "BMW316i",
+    "stock": 5,
+    "id": 2
+  },
+  {
+    "title": "BMW 320i",
+    "description": "Auto BMV",
+    "price": 24000,
+    "thumbnail": "url3",
+    "code": "AUS3",
+    "stock": 10,
+    "id": 3
+  },
+  {
+    "title": "BMW X2",
+    "description": "SUV BMV",
+    "price": 24000,
+    "thumbnail": "url4",
+    "code": "BMWX2",
+    "stock": 3,
+    "id": 4
+  },
+  {
+    "title": "Audi A3",
+    "description": "Auto Audi",
+    "price": 22000,
+    "thumbnail": "url5",
+    "code": "AudiA3",
+    "stock": 5,
+    "id": 5
+  },
+  {
+    "title": "Audi S3",
+    "description": "Auto Audi Turbo",
+    "price": 32000,
+    "thumbnail": "url6",
+    "code": "AudiS3",
+    "stock": 10,
+    "id": 6
+  },
+  {
+    "title": "Audi S7",
+    "description": "Auto Audi Turbo",
+    "price": 96000,
+    "thumbnail": "url7",
+    "code": "AudiS7",
+    "stock": 3,
+    "id": 7
+  },
+  {
+    "title": "Mercedes Benz A200",
+    "description": "Auto Mercedes Benz",
+    "price": 19000,
+    "thumbnail": "url8",
+    "code": "MBA200",
+    "stock": 5,
+    "id": 8
+  },
+  {
+    "title": "Audi Q7",
+    "description": "SUV Audi",
+    "price": 110000,
+    "thumbnail": "url9",
+    "code": "AudiQ7",
+    "stock": 5,
+    "id": 9
+  },
+  {
+    "title": "Mercedes Benz A600",
+    "description": "Auto Mercedes Benz",
+    "price": 28000,
+    "thumbnail": "url10",
+    "code": "MBA600",
+    "stock": 10,
+    "id": 10
+  }
+]

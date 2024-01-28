@@ -1,0 +1,132 @@
+[
+  {
+    "title": "BMW 318i",
+    "description": "El BMW 318i es un sedán compacto de lujo conocido por su elegante diseño y rendimiento dinámico. Equipado con un motor eficiente y tecnología avanzada, ofrece una experiencia de conducción refinada y deportiva.",
+    "price": "18000",
+    "thumbnail": "https://media.ed.edmunds-media.com/bmw/3-series/2023/oem/2023_bmw_3-series_sedan_330i-xdrive_fq_oem_1_1600.jpg",
+    "code": "BMW318i",
+    "stock": 3,
+    "id": 1,
+    "status": 0
+  },
+  {
+    "title": "BMW 316i",
+    "description": "El BMW 316i es un sedán compacto que combina eficiencia de combustible con la marca distintiva de lujo de BMW. Con un motor potente y características tecnológicas, proporciona una experiencia de conducción equilibrada y cómoda.",
+    "price": "22000",
+    "thumbnail": "https://www.usnews.com/object/image/0000018c-5ada-d399-adee-7fdf051a0001/p90479559-highres-the-new-bmw-m340i-xd-1.jpg?update-time=1702331286807&size=responsiveGallery",
+    "code": "BMW316i",
+    "stock": 5,
+    "id": 2,
+    "status": 0
+  },
+  {
+    "title": "BMW 320i",
+    "description": "El BMW 320i es un sedán ejecutivo que ofrece un equilibrio notable entre rendimiento y eficiencia. Con un motor potente, tecnología avanzada y un diseño elegante, brinda una experiencia de conducción premium en la gama media de la serie 3 de BMW.",
+    "price": "24000",
+    "thumbnail": "https://cdcssl.ibsrv.net/autodata/images/?img=USD30BMC223A01300.jpg&width=397&height=298l3",
+    "code": "AUS3",
+    "stock": 10,
+    "id": 3,
+    "status": 1
+  },
+  {
+    "title": "BMW X2",
+    "description": "La BMW X2 es una SUV compacta de estilo deportivo que fusiona un diseño audaz con agilidad de conducción. Destaca por su carácter dinámico, características de lujo y una apariencia distintiva, posicionándose como una opción atractiva en el segmento de vehículos utilitarios deportivos.",
+    "price": "24000",
+    "thumbnail": "https://cdn.bmwblog.com/wp-content/uploads/2023/03/2024-bmw-x2-renderings-01.jpg",
+    "code": "BMWX2",
+    "stock": 3,
+    "id": 4,
+    "status": 1
+  },
+  {
+    "title": "Audi A3",
+    "description": "El Audi A3 es un sedán compacto de lujo que destaca por su diseño elegante, acabados de alta calidad y tecnología avanzada. Reconocido por su agilidad en la conducción y opciones de motorización eficiente, el Audi A3 ofrece una experiencia premium en la categoría de automóviles compactos.",
+    "price": "22000",
+    "thumbnail": "https://hips.hearstapps.com/hmg-prod/images/2024-audi-a3-102-64b1ab64749a0.jpg?crop=0.759xw:0.568xh;0.102xw,0.310xh&resize=1200:*",
+    "code": "AudiA3",
+    "stock": 5,
+    "id": 5,
+    "status": 1
+  },
+  {
+    "title": "Audi S3",
+    "description": "El Audi S3 es la versión deportiva del Audi A3, caracterizado por un rendimiento potente y una dinámica de conducción ágil. Equipado con un motor de alto rendimiento, tracción en las cuatro ruedas Quattro de Audi y detalles deportivos, el Audi S3 ofrece una experiencia de conducción emocionante dentro de la gama compacta de vehículos de lujo.",
+    "price": "32000",
+    "thumbnail": "https://www.slashgear.com/img/gallery/2024-audi-s3-review-just-enough-of-everything/l-intro-1692889833.jpg",
+    "code": "AudiS3",
+    "stock": 12,
+    "id": 6,
+    "status": 1
+  },
+  {
+    "title": "Audi S7",
+    "description": "El Audi S7 es un sedán deportivo de lujo que combina un diseño elegante con un rendimiento impresionante. Equipado con un motor potente, tracción en las cuatro ruedas Quattro y tecnología de vanguardia, el Audi S7 ofrece una experiencia de conducción de alto nivel en el segmento de vehículos de lujo de tamaño medio. Su estilo distintivo y su capacidad de aceleración destacan entre las opciones premium.",
+    "price": "96000",
+    "thumbnail": "https://www.motortrend.com/uploads/2023/06/2024-Audi-RS7-Sportback-performance-Nardo-grey-front-view-002.jpg?fit=around%7C551:374",
+    "code": "AudiS7",
+    "stock": 3,
+    "id": 7,
+    "status": 1
+  },
+  {
+    "title": "Mercedes Benz A200",
+    "description": "El Mercedes Benz A200 es un hatchback compacto de lujo que fusiona un diseño moderno con un interior sofisticado. Con tecnología avanzada y eficiencia de combustible, el A200 ofrece una experiencia de conducción elegante y cómoda.",
+    "price": "19000",
+    "thumbnail": "https://res.cloudinary.com/ho5waxsnl/image/upload/c_fill,f_auto,h_540,q_auto,w_960/4lx6wr0thxivj29i6q1ooi28u7v1",
+    "code": "MBA200",
+    "stock": 5,
+    "id": 8,
+    "status": 1
+  },
+  {
+    "title": "Audi Q7",
+    "description": "El Audi Q7 es una SUV de lujo que destaca por su diseño elegante, interior espacioso y tecnología avanzada. Con capacidad para siete pasajeros, tracción en las cuatro ruedas Quattro y un rendimiento potente, el Audi Q7 ofrece una experiencia de conducción premium en el segmento de vehículos utilitarios deportivos.",
+    "price": "110000",
+    "thumbnail": "https://www.motortrend.com/uploads/2023/08/7577-2024-Audi-SQ7-front-view.jpg",
+    "code": "AudiQ7",
+    "stock": 5,
+    "id": 9,
+    "status": 1
+  },
+  {
+    "title": "Toyota RAV4",
+    "description": "La Toyota RAV4 es una SUV compacta que se destaca por su fiabilidad, eficiencia de combustible y versatilidad. Con un diseño moderno, tecnología intuitiva y opciones de tracción total, la RAV4 es popular por ofrecer una combinación equilibrada de comodidad y capacidad tanto en carreteras urbanas como en terrenos más exigentes.",
+    "price": "18000",
+    "thumbnail": "https://www.motortrend.com/uploads/2023/08/009-2024-Toyota-RAV4-Prime-Plug-In-Hybrid-front-three-quarters.jpg?fit=around%7C875:492",
+    "code": "TOYRAV4",
+    "stock": "4",
+    "id": 10,
+    "status": 1
+  },
+  {
+    "title": "Toyota Agya",
+    "description": "El Toyota Agya es un automóvil compacto y asequible diseñado para la movilidad urbana. Ofrece eficiencia de combustible, un tamaño compacto y características prácticas, convirtiéndolo en una opción popular para conductores que buscan economía y maniobrabilidad en entornos urbanos.",
+    "price": "14000",
+    "thumbnail": "https://cdn-api.toyotacr.com/toyotacr_website/uploads/characteristics/d4ea58ab13cee05189ddb4455945c272f28038a7.jpeg",
+    "code": "TOYAGYA",
+    "stock": "6",
+    "status": 1,
+    "id": 12
+  },
+  {
+    "title": "Volkswager Gol",
+    "description": "El Volkswagen Gol es un automóvil compacto fabricado por Volkswagen, conocido por su diseño versátil y eficiencia en combustible, siendo popular en mercados globales.",
+    "price": "16000",
+    "thumbnail": "https://i.kinja-img.com/image/upload/c_fit,q_60,w_645/0bd54cdb773bf6f6b2baaf91351bd034.jpg",
+    "code": "VolksGol",
+    "stock": "6",
+    "status": 0,
+    "id": 13
+  },
+  {
+    "title": "sdf",
+    "description": "dsf",
+    "price": "23",
+    "thumbnail": "dsf",
+    "code": "23232",
+    "stock": "23",
+    "status": 0,
+    "id": 14
+  }
+]
