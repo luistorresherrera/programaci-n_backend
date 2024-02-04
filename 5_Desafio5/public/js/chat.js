@@ -16,8 +16,8 @@ btn_lockEmail.addEventListener("click", (event) => {
   }
   localStorage.setItem("email", inputEmail.value);
   inputEmail.setAttribute("disabled", "true");
-  alert("Email registra. Puedes empezar a chatear.");
-  socket.emit("getMessages");
+  alert("Email registrado. Puedes empezar a chatear.");
+  intervalGetMessages();
 });
 
 //Iniciar función cíclica para cargar los mensajes
@@ -50,6 +50,7 @@ btn_sendMessage.addEventListener("click", async (event) => {
   });
   if (resultMensaje.status == 200) {
     intervalGetMessages();
+    inputMessage.value = "";
   } else {
     alert("No se puede enviar el mensaje.");
   }

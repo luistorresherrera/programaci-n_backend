@@ -27,11 +27,3 @@ router.post("/", async (req, res) => {
 });
 
 export default router;
-
-router.put("/:pid", async (req, res) => {
-  const { pid } = req.params;
-  const modifierObject = req.body;
-  const prod = new MongoProductManager();
-
-  res.send(await prod.updateCompleteProduct(pid, modifierObject));
-});

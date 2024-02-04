@@ -1,32 +1,10 @@
 import { Router } from "express";
+
 const router = Router();
 import ProductManager from "../dao/FileSystem/product_manager.js";
 const fileData = "./data/products.json";
 import productModel from "../models/products.model.js";
 import MongoProductManager from "../dao/MongoDb/product_manager.js";
-
-//QUERY PARA TRAER PRODUCTOS CON LÍMITE DE ITEMS
-router.get("/query", async (req, res) => {
-  // traigo la variable limit del query de la URL
-  const { limit } = req.query;
-
-  //valido que los números menores de 1 me devuelvan un array vacío
-  if (parseInt(limit) < 1) {
-    return res
-      .status(400)
-      .send(
-        "Cuando el límite solicitado es menor a 1, entonces el resultado siempre será vacío."
-      );
-    // En caso de ser el limite 1 o más, entonces buscar la cantidad de productos
-  } else {
-    try {
-      const products = await productModel.find({}).limit(limit);
-      res.status(200).send(products);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-});
 
 //TRAER UN PRODUCTO ESPECÍFICO POR EL ID DEL PRODUCTO
 router.get("/:pid", async (req, res) => {
@@ -44,9 +22,92 @@ router.get("/:pid", async (req, res) => {
 //TRAER TODOS LOS PRODUCTOS POR PARAMETRO DE URL
 router.get("/", async (req, res) => {
   try {
-    const prod = new MongoProductManager();
-    const products = await prod.getProducts();
-    res.status(200).send(products);
+    let { limit, pageSearch, sort, query } = req.query;
+
+    // Validar query
+    if (!query) {
+      query = "";
+    }
+
+    // Validar limit
+    if (!limit || limit < 0) {
+      limit = 10;
+    }
+    //Validar page
+    if (!pageSearch) {
+      pageSearch = 1;
+    }
+    let doSort = "";
+    //validar sort
+    if (!sort || (sort != "asc" && sort != "desc")) {
+      doSort = null;
+    } else {
+      doSort = { price: sort };
+    }
+
+    let {
+      docs,
+      status,
+      totalPages,
+      prevLink,
+      nextLink,
+      hasPrevPage,
+      hasNextPage,
+      prevPage,
+      nextPage,
+      page,
+    } = await productModel.paginate(
+      {
+        $or: [
+          { title: { $regex: query, $options: "i" } },
+          { description: { $regex: query, $options: "i" } },
+
+          { code: { $regex: query, $options: "i" } },
+        ],
+      },
+      {
+        limit,
+        page: pageSearch,
+        sort: doSort,
+        lean: true,
+      }
+    );
+
+    if ((hasPrevPage = true)) {
+      prevLink =
+        "/?page=" +
+        prevPage +
+        "&limit=" +
+        limit +
+        "&sort=" +
+        sort +
+        "&query=" +
+        query;
+    }
+    if ((hasNextPage = true)) {
+      nextLink =
+        "/?page=" +
+        nextPage +
+        "&limit=" +
+        limit +
+        "&sort=" +
+        sort +
+        "&query=" +
+        query;
+    }
+
+    res.status(200).send({
+      docs,
+      status,
+      totalPages,
+      prevLink,
+      nextLink,
+      hasPrevPage,
+      hasNextPage,
+      prevPage,
+      nextPage,
+      page,
+    });
   } catch (error) {
     console.log(error);
   }

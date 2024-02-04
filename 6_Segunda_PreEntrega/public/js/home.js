@@ -9,7 +9,7 @@ const funcionGetProducts = async () => {
     },
   }).then((res) => res.json());
 
-  products.forEach(async (product) => {
+  products.docs.forEach(async (product) => {
     const flag = () => {
       return product.status == 0
         ? { color: "red", text: "Inactivo" }
