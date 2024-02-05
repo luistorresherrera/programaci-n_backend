@@ -8,6 +8,8 @@ body {
 
 h1 {
   text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 h2 {
@@ -88,10 +90,10 @@ input {
   flex-wrap: wrap;
   justify-content: left;
   align-items: center;
-  border: 1px solid gray;
-  border-radius: 10px;
+
   width: 200px !important;
   height: auto;
+  max-height: 180px;
 }
 
 .productImage img {
@@ -99,6 +101,8 @@ input {
   width: 100%;
   object-fit: cover;
   object-position: center;
+  border-radius: 10px;
+  border: 1px solid gray;
 }
 
 .productInfo {
@@ -186,4 +190,129 @@ input {
   padding: 10px;
   background-color: rgba(0, 210, 243, 0.515);
   border: 1px solid black;
+}
+
+/* SEGUNDA PRE ENTREGA */
+
+.productsContainer {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
+.productDescription {
+  margin: 10px;
+}
+
+p {
+  margin: 5px;
+  padding: 0;
+}
+
+button {
+  margin: 5px;
+}
+
+.productDetailImage {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  height: 300px;
+}
+
+.productDetailImage img {
+  height: 300px;
+  border-radius: 10px;
+  border: 1px solid gray;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.productDetailDescription {
+  margin: 10px;
+  width: 50%;
+  text-align: center;
+}
+
+/* CART */
+.productContainerInCart {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid gray;
+  background-color: rgb(247, 247, 247);
+  border-radius: 10px;
+  width: 80%;
+  height: auto;
+}
+
+.cartContainer {
+  display: flex;
+
+  flex-direction: column;
+  margin: 10px;
+  padding: 10px;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  text-align: center;
+  justify-content: center;
+}
+
+.productInCartImage img {
+  width: 200px;
+  height: 150px;
+  border-radius: 10px;
+  border: 1px solid gray;
+  object-fit: cover;
+  object-position: center;
+  margin-right: 20px;
+}
+
+.productInCartDetail {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+.productInCartDetail div {
+  padding: 5px;
+}
+
+/* Header */
+
+.headerContainer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  padding: 10px;
+}
+
+.borderHeader {
+  display: flex;
+  flex-direction: row;
+  width: 10%;
+  align-items: center;
+  padding: 10px;
+  text-align: center;
+  justify-content: center;
+}
+
+.middleHeader {
+  display: flex;
+  flex-direction: row;
+  width: 80%;
+  align-items: center;
+  padding: 10px;
+  text-align: center;
+  justify-content: center;
 }

@@ -23,7 +23,7 @@ class MongoProductManager {
   //Método para traer solo un producto a través de su ID
   async getProduct(id) {
     try {
-      const result = await productModel.findOne({ id: id });
+      const result = await productModel.findOne({ _id: id });
       return result;
     } catch (error) {
       return `Hubo un error: ${error}`;
@@ -85,7 +85,7 @@ class MongoProductManager {
       const result =
         (await productModel.findOne({ id: id }).countDocuments({})) == 0
           ? `No se encontro el producto con ID: ${id}`
-          : await productModel.findOneAndUpdate({ id: id }, modifierObject, {
+          : await productModel.findOneAndUpdate({ _id: id }, modifierObject, {
               new: true,
             });
       return { status: "success", result: result };
@@ -99,7 +99,7 @@ class MongoProductManager {
     try {
       const productoToDelete = await productModel.findOne({ id: id });
       if (productoToDelete.status == 1) {
-        await productModel.updateOne({ id: id }, { status: 0 });
+        await productModel.updateOne({ _id: id }, { status: 0 });
 
         return `Se eliminó el producto con ID: ${id}`;
       }
@@ -114,7 +114,7 @@ class MongoProductManager {
     try {
       const productoToActivate = await productModel.findOne({ id: id });
       if (productoToActivate.status == 0) {
-        await productModel.updateOne({ id: id }, { status: 1 });
+        await productModel.updateOne({ _id: id }, { status: 1 });
 
         return `Se activó el producto con ID: ${id}`;
       }

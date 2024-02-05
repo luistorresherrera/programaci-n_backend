@@ -6,8 +6,10 @@ import __dirname from "./utils.js";
 import { Server as serverIO } from "socket.io";
 import MongoProductManager from "./dao/MongoDb/product_manager.js";
 import messageRouter from "./routes/messages.route.js";
+import productsViewRouter from "./routes/productsView.route.js";
 import connectDB from "./config/connectDB.js";
 import MongoMessageManager from "./dao/MongoDb/message_manager.js";
+import cartsViewRouter from "./routes/cartsView.route.js";
 
 const app = express();
 const port = 8080;
@@ -25,11 +27,6 @@ app.engine("handlebars", handlebars.engine());
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 
-//RENDERIZAR LA PAGINA PRINCIPAL (RAIZ DEL LOCALHOST) -> Para el ejercicio redireccionará a home
-app.get("/", (req, res) => {
-  res.render("home");
-});
-
 //RENDERIZAR LA PAGINA DE REAL TIME PRODUCTS
 app.get("/realTimeProducts", (req, res) => {
   res.render("realTimeProducts");
@@ -40,6 +37,12 @@ app.get("/chat", (req, res) => {
   res.render("chat");
 });
 
+//RENDERIZAR LA PAGINA DE PRODCUTSO
+app.use("/cart", cartsViewRouter);
+
+//RENDERIZAR LA PAGINA DE CARTS
+app.use("/products", productsViewRouter);
+
 //USAR MIDDLEWARE PARA ROUTER DE PRODUCTOS
 app.use("/api/chat", messageRouter);
 
@@ -48,6 +51,11 @@ app.use("/api/products", productsRourter);
 
 //USAR MIDDLEWARE PARA ROUTER DE CARTS
 app.use("/api/carts", cartsRouter);
+
+//RENDERIZAR LA PAGINA PRINCIPAL (RAIZ DEL LOCALHOST) -> Para el ejercicio redireccionará a home
+app.get("/", (req, res) => {
+  res.render("home");
+});
 
 //ACTIVAR LA ESCUCHA DEL SERVIDOR HTTP EN EL PUERTO XXXX
 const httpServer = app.listen(port, () => {

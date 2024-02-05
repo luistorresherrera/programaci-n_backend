@@ -1,8 +1,7 @@
 import { Router } from "express";
 
 const router = Router();
-import ProductManager from "../dao/FileSystem/product_manager.js";
-const fileData = "./data/products.json";
+
 import productModel from "../models/products.model.js";
 import MongoProductManager from "../dao/MongoDb/product_manager.js";
 
@@ -22,21 +21,13 @@ router.get("/:pid", async (req, res) => {
 //TRAER TODOS LOS PRODUCTOS POR PARAMETRO DE URL
 router.get("/", async (req, res) => {
   try {
-    let { limit, pageSearch, sort, query } = req.query;
+    let { limit = 10, pageSearch = 1, sort, query } = req.query;
 
     // Validar query
     if (!query) {
       query = "";
     }
 
-    // Validar limit
-    if (!limit || limit < 0) {
-      limit = 10;
-    }
-    //Validar page
-    if (!pageSearch) {
-      pageSearch = 1;
-    }
     let doSort = "";
     //validar sort
     if (!sort || (sort != "asc" && sort != "desc")) {
@@ -73,9 +64,9 @@ router.get("/", async (req, res) => {
       }
     );
 
-    if ((hasPrevPage = true)) {
+    if (prevPage) {
       prevLink =
-        "/?page=" +
+        "../products?pageSearch=" +
         prevPage +
         "&limit=" +
         limit +
@@ -84,9 +75,9 @@ router.get("/", async (req, res) => {
         "&query=" +
         query;
     }
-    if ((hasNextPage = true)) {
+    if (nextPage) {
       nextLink =
-        "/?page=" +
+        "../products?pageSearch=" +
         nextPage +
         "&limit=" +
         limit +

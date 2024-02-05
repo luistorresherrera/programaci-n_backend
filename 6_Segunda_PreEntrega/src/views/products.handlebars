@@ -1,0 +1,45 @@
+<div class="headerContainer">
+  <div class="borderHeader"></div>
+  <div class="middleHeader"><h1>Todos los productos</h1></div>
+  <div class="borderHeader"><button
+      type="button"
+      id="btn_cart"
+    >Carrito</button></div>
+</div>
+<div class="productsContainer" id="productsContainer">
+  <div>
+    {{#if prevPage}}
+      <a tid="prevPage" href="{{prevLink}}">Anterior</a>
+    {{/if}}
+    <label>{{page}}
+      de
+      {{totalPages}}
+    </label>
+    {{#if nextPage}}
+      <a id="nextPage" href="{{nextLink}}">Siguiente</a>
+    {{/if}}
+  </div>
+  {{#each products}}
+    <div class="productContainer" id="productContainer">
+      <div class="productImage" id="productImage">
+        <img src="{{this.thumbnail}}" /></div>
+      <div class="productDescription" id="productDescription"><p><strong
+          >Nombre:</strong>
+          {{this.title}}</p>
+        <p><strong>Código:</strong> {{this.code}}</p>
+        <p><strong>Precio:</strong> USD {{this.price}}</p>
+        <p><strong>Stock:</strong> {{this.stock}}</p>
+
+        <p><button type="button" id="btn_verDetalle" name="{{this._id}}">Ver
+            detalle</button><button
+            type="button"
+            id="btn_addToCart"
+            name="{{this._id}}"
+          >Agregar al carrito</button></p>
+      </div>
+
+    </div>
+  {{/each}}
+</div>
+
+<script type="module" src="/js/products.js"></script>
