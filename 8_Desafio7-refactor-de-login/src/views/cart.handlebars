@@ -1,0 +1,38 @@
+<div class="headerContainer">
+  <div class="borderHeader"><button
+      type="button"
+      id="btn_back"
+    >Regresar</button></div>
+  <div class="middleHeader"><h1>Mi carrito de compras</h1></div>
+  <div class="borderHeader"></div>
+</div>
+<div class="cartContainer">
+  {{#each result}}
+    <div class="productContainerInCart">
+      <div class="productInCartImage" id="productInCartImage"><img
+          src="{{this.product.thumbnail}}"
+          alt="{{this.product.title}}"
+        /></div>
+      <div class="productInCartDetail" id="productInCartDetail">
+        <div><strong>{{this.product.title}}
+          </strong>(Cód.
+          {{this.product.code}})</div>
+
+        <div><strong>Precio Unit.:</strong>
+          USD
+          {{this.product.price}}</div>
+        <div><strong>Cantidad:</strong>
+
+          {{this.quantity}}</div>
+        <div><button
+            type="button"
+            id="btn_deleteProduct"
+            name="{{this.product._id}}"
+          >Eliminar</button></div>
+      </div>
+
+    </div>
+
+  {{/each}}</div>
+
+<script type="module" src="/js/products.js"></script>

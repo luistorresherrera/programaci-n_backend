@@ -1,0 +1,23 @@
+<div class="productsContainer" id="productsContainer">
+
+  {{#each products}}
+    <h1>{{this.title}}</h1>
+
+    <div class="productDetailImage" id="productImage">
+      <img src="{{this.thumbnail}}" /></div>
+    <div class="productDetailDescription" id="productDescription"><p>
+        {{this.description}}</p>
+      <p><strong>Código:</strong> {{this.code}}</p>
+      <p><strong>Precio:</strong> USD {{this.price}}</p>
+      <p><strong>Stock:</strong> {{this.stock}}</p>
+
+      <p><button type="button" id="btn_addToCart" name="{{this._id}}">Agregar al
+          carrito</button></p>
+      <p><button type="button" id="btn_cart">Ir al carrito</button></p>
+      <p><button type="button" id="btn_back">Regresar</button></p>
+    </div>
+
+  {{/each}}
+</div>
+
+<script type="module" src="/js/products.js"></script>
