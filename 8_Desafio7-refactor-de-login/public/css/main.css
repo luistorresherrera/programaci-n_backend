@@ -53,6 +53,8 @@ h2 {
 
 .headerBorder {
   width: 15%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .headerMiddle {
@@ -120,7 +122,8 @@ input {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  margin: 10px;
+  align-content: center;
+  margin-top: 10px;
   padding: 10px;
   border: 1px solid gray;
   background-color: rgb(247, 247, 247);
@@ -268,6 +271,7 @@ button {
   justify-content: center;
   width: 50%;
   height: 300px;
+  margin-top: 50px;
 }
 
 .productDetailImage img {
@@ -303,7 +307,7 @@ button {
   display: flex;
 
   flex-direction: column;
-  margin: 10px;
+
   padding: 10px;
   align-items: center;
   width: 100%;
@@ -453,4 +457,14 @@ button {
   padding-top: 100px;
   align-items: center;
   flex-direction: column;
+}
+
+#btn_logout {
+  color: white;
+  background-color: red;
+  height: 40px;
+  margin-top: 20px;
+  width: 300px;
+  border: 1px solid gray;
+  border-radius: 5px;
 }

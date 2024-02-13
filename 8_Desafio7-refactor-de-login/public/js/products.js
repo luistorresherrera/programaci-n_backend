@@ -1,36 +1,10 @@
 const addToCart = async (p_id) => {
-  if (sessionStorage.getItem("cart")) {
-    const cartId = JSON.parse(sessionStorage.getItem("cart"));
-    //AGREGAR EL PRODUCTOS AL CARRITO QUE ESTÁ EN SESSION STORAGE
-    const response = await fetch(`../api/carts/${cartId}/product/${p_id}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    alert("Se agrego el producto al carrito");
-  } else {
-    //CREAR CARRITO PORQUE NO EXISTE
-    const newCart = await fetch("../api/carts", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((res) => res.json());
-    sessionStorage.setItem("cart", newCart.id);
-    //AGREGAR EL PRODUCTOS AL CARRITO CREADO
-    const response = await fetch(
-      `../api/carts/${await newCart.id}/product/${p_id}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    alert("Se agrego el producto al carrito");
-  }
+  const response = await fetch(`../api/carts/product/${p_id}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then((res) => res.json());
 };
 
 const btnAddToCart = document.querySelectorAll("#btn_addToCart");
@@ -43,7 +17,7 @@ btnAddToCart.forEach((element) => {
 const btnCarrito = document.querySelectorAll("#btn_cart");
 btnCarrito.forEach((element) => {
   element.addEventListener("click", (event) => {
-    const url = `../cart/${sessionStorage.getItem("cart")}`;
+    const url = `../cart`;
     window.location.href = url;
   });
 });

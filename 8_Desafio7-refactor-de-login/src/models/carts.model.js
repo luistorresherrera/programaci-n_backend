@@ -12,7 +12,8 @@ const cartsSchema = new mongoose.Schema({
     ],
     required: false,
   },
-  id: { type: Number, required: true, unique: true, index: true },
+
+  user: { type: String, required: true },
 });
 
 cartsSchema.pre("findOne", function () {

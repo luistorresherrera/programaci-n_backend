@@ -6,25 +6,15 @@ const fileDataProducts = "./data/products.json";
 import ProductManager from "../dao/FileSystem/product_manager.js";
 import MongoCartManager from "../dao/MongoDb/cart_manager.js";
 import cartModel from "../models/carts.model.js";
+import auth from "../middleware/authentication.middleware.js";
 
 // //TRAER UN CART POR ID
-router.get("/:cid", async (req, res) => {
-  const { cid } = req.params;
+router.get("/", auth, async (req, res) => {
+  const cid = req.session.cart;
   const prod = new MongoCartManager();
 
-  const cart = await prod.getCart(cid);
+  const cart = await prod.getCart({ _id: cid });
 
-  const cartLocal = [
-    { id: 1, product: { vehiculo: "carro", color: "rojo" }, cantidad: 4 },
-    { id: 2, product: { vehiculo: "suv", color: "azul" }, cantidad: 2 },
-    { id: 3, product: { vehiculo: "moto", color: "blanco" }, cantidad: 3 },
-    { id: 4, product: { vehiculo: "bus", color: "negro" }, cantidad: 5 },
-  ];
-
-  console.log("----------------------------------");
-  console.log({ result: cart.products });
-  console.log("----------------------------------");
-  // console.log({ result: cartLocal });
   res.render("cart", { result: cart.products });
 });
 

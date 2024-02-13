@@ -8,11 +8,11 @@ class MongoCartManager {
   constructor() {}
 
   //Método crear cart
-  async createCart() {
+  async createCart(userId) {
     try {
       const cartCreated = cartModel.create({
-        id: await cartModel.find({}).countDocuments({}),
         products: [],
+        user: userId,
       });
 
       return cartCreated;
@@ -34,13 +34,13 @@ class MongoCartManager {
   }
 
   // Método para traer un solo cart a través del ID
-  async getCart(cid) {
+  async getCart(filter) {
     try {
-      if ((await cartModel.findOne({ id: cid }).countDocuments({})) == 0) {
+      if ((await cartModel.findOne(filter).countDocuments({})) == 0) {
         return "El carrito no existe";
       }
 
-      const cart = await cartModel.findOne({ id: cid }).lean();
+      const cart = await cartModel.findOne(filter).lean();
       return cart;
     } catch (err) {
       console.log("Hubo un error: ", err);
@@ -49,7 +49,7 @@ class MongoCartManager {
   }
   async addProductToCart(cid, p_id) {
     try {
-      if ((await cartModel.findOne({ id: cid }).countDocuments({})) == 0) {
+      if ((await cartModel.findOne({ _id: cid }).countDocuments({})) == 0) {
         return "El carrito no existe";
       }
       if (!(await productModel.findOne({ _id: p_id }))) {
@@ -57,7 +57,9 @@ class MongoCartManager {
       }
       const productSelected = await productModel.findOne({ _id: p_id });
 
-      const cartSelected = await cartModel.findOne({ id: cid });
+      const cartSelected = await cartModel.findOne({ _id: cid });
+      console.log("cid: " + cid);
+      console.log("pid: " + p_id);
       const objetoProducto = cartSelected.products.find(
         (p) => p.product._id == p_id
       );
@@ -70,14 +72,14 @@ class MongoCartManager {
           quantity: 1,
         });
 
-        await cartModel.findOneAndUpdate({ id: cid }, { cartSelected });
+        await cartModel.findOneAndUpdate({ _id: cid }, { cartSelected });
         await cartSelected.save();
         return `Se agregó el primer producto de ID: ${p_id}  al carrito de ID ${cid}`;
       }
 
       cartSelected.products[indexObjetoProduct].quantity += 1;
 
-      await cartModel.findOneAndUpdate({ id: cid }, { cartSelected });
+      await cartModel.findOneAndUpdate({ _id: cid }, { cartSelected });
       await cartSelected.save();
 
       return `Se agregó otro producto de ID: ${p_id}  al carrito de ID ${cid}`;

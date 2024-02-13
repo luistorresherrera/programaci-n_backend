@@ -3,9 +3,10 @@ import { Router } from "express";
 const router = Router();
 import MongoProductManager from "../dao/MongoDb/product_manager.js";
 import productModel from "../models/products.model.js";
+import auth from "../middleware/authentication.middleware.js";
 
 //PRODUCT DETAIL
-router.get("/:pid", async (req, res) => {
+router.get("/:pid", auth, async (req, res) => {
   try {
     const { pid } = req.params;
 
@@ -25,7 +26,7 @@ router.get("/:pid", async (req, res) => {
 });
 
 //TRAER TODOS LOS PRODUCTOS POR PARAMETRO DE URL
-router.get("/", async (req, res) => {
+router.get("/", auth, async (req, res) => {
   try {
     let { limit = 10, pageSearch = 1, sort, query } = req.query;
 
@@ -92,7 +93,7 @@ router.get("/", async (req, res) => {
         "&query=" +
         query;
     }
-    console.log(docs);
+
     res.render("products", {
       products: docs,
       status,
@@ -104,6 +105,7 @@ router.get("/", async (req, res) => {
       prevPage,
       nextPage,
       page,
+      userName: `${req.session.first_name} ${req.session.last_name}`,
     });
   } catch (error) {
     console.log(error);

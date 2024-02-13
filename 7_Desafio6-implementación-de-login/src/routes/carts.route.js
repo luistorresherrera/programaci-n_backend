@@ -5,38 +5,50 @@ const fileData = "./data/carts.json";
 const fileDataProducts = "./data/products.json";
 import ProductManager from "../dao/FileSystem/product_manager.js";
 import MongoCartManager from "../dao/MongoDb/cart_manager.js";
+import MongoUserManager from "../dao/MongoDb/user_manager.js";
 
 // //TRAER UN CART POR ID
-router.get("/:cid", async (req, res) => {
-  const { cid } = req.params;
+router.get("/", async (req, res) => {
+  const cid = req.session.cart;
   const cart = new MongoCartManager();
 
   return res.status(200).send(await cart.getCart(cid));
 });
 
 // //TRAER TODOS LOS CARTS EXISTENTES
-router.get("/", async (req, res) => {
-  const cart = new MongoCartManager();
-  const result = await cart.getCarts();
+// router.get("/", async (req, res) => {
+//   const cart = new MongoCartManager();
+//   const result = await cart.getCarts();
 
-  return res.status(200).send(result);
-});
+//   return res.status(200).send(result);
+// });
 
 //CREAR UN CARRITO DE COMPRAS
 router.post("/", async (req, res) => {
   const cart = new MongoCartManager();
-
-  res.status(200).send(await cart.createCart());
+  const user = new MongoUserManager();
+  const result = await user.authenticate({ email: req.session.email });
+  const cartResult = await cart.createCart(result.user.resultFiltered.userID);
+  req.session.cart = cartResult._id;
+  res.status(200).send(cartResult);
 });
 
 //AGREGAR UN PRODUCTO AL CARRITO DE COMPRAS
-router.post("/:cid/product/:pid", async (req, res) => {
-  const { cid, pid } = req.params;
-
-  // Traer el arrar de carts que existe en el archivo
+router.post("/product/:pid", async (req, res) => {
+  const { pid } = req.params;
+  const cid = req.session.cart;
+  console.log("Cid: " + cid);
   const cart = new MongoCartManager();
-  const result = await cart.addProductToCart(cid, pid);
-  return res.status(200).send(result);
+  if (cid != undefined) {
+    const result = await cart.addProductToCart(cid, pid);
+    return res.status(200).send(result);
+  } else {
+    console.log("Entre");
+    const carrito = await cart.createCart(req.session.userID);
+    req.session.cart = carrito._id;
+    const resultProduct = await cart.addProductToCart(carrito._id, pid);
+    return res.status(200).send(resultProduct);
+  }
 });
 
 //ELIMINAR UN PRODUCTO AL CARRITO DE COMPRAS
