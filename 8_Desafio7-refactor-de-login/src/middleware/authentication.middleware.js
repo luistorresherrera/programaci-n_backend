@@ -1,10 +1,7 @@
 import MongoUserManager from "../dao/MongoDb/user_manager.js";
 
 async function auth(req, res, next) {
-  const user = new MongoUserManager();
-  const userData = await user.authenticate({ email: req.session.email });
-
-  if (userData.status == "OK") {
+  if (req.session.user) {
     return next();
   } else {
     res.render("login", {

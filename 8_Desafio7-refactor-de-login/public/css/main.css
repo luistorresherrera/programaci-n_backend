@@ -468,3 +468,19 @@ button {
   border: 1px solid gray;
   border-radius: 5px;
 }
+
+#btn_github {
+  color: white !important;
+  background-color: rgb(0, 0, 0);
+  height: 40px;
+  margin-top: 20px;
+  width: 300px;
+  border: 1px solid gray;
+  border-radius: 10px;
+  text-decoration: none;
+}
+#btn_github a {
+  color: white !important;
+
+  text-decoration: none;
+}

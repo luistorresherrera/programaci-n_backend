@@ -3,41 +3,113 @@ const router = Router();
 import MongoUserManager from "../dao/MongoDb/user_manager.js";
 import MongoCartManager from "../dao/MongoDb/cart_manager.js";
 import auth from "../middleware/authentication.middleware.js";
+import bcrytFunctions from "../utils/hashBcrypt.js";
+
+import passport from "passport";
+
+const { createHash } = bcrytFunctions;
 
 //CREAR UN USUARIO
-router.post("/register", async (req, res, next) => {
-  const { password, password_retype } = req.body;
-  if (password != password_retype) {
-    return res
-      .status(400)
-      .send({ status: "ERROR", message: "Las contraseñas no coinciden" });
+// router.post("/register", async (req, res) => {
+//   const { password, password_retype, first_name, last_name, email, birthdate } =
+//     req.body;
+//   if (password != password_retype) {
+//     return res
+//       .status(400)
+//       .send({ status: "ERROR", message: "Las contraseñas no coinciden" });
+//   }
+//   const newUser = {
+//     first_name,
+//     last_name,
+//     email,
+//     birthdate,
+//     password: createHash(password),
+//   };
+//   const user = new MongoUserManager();
+//   const result = await user.addUser(newUser);
+//   res.send(result);
+// });
+
+router.post(
+  "/register",
+  passport.authenticate("register", {
+    failureRedirect: "/api/sessions/failregister",
+  }),
+  async (req, res) => {
+    res.send({ status: "OK" });
   }
-  const user = new MongoUserManager();
-  const result = await user.addUser(req.body);
-  res.send(result);
+);
+
+router.get("failregister", (req, res) => {
+  res.send({ error: "failregister" });
 });
+
+router.get(
+  "/github",
+  passport.authenticate("github", { scope: ["user:email"] }),
+  (req, res) => {}
+);
+
+router.get(
+  "/githubcallback",
+  passport.authenticate("github", {
+    failureRedirect: "/login",
+  }),
+  (req, res) => {
+    req.session.user = req.user;
+    res.redirect("/products");
+  }
+);
+
+router.post(
+  "/login",
+  passport.authenticate("login", {
+    failureRedirect: "/api/sessions/failregister",
+  }),
+  async (req, res) => {
+    if (!req.user)
+      return res
+        .status(401)
+        .send({ status: "ERROR", message: "No autorizado" });
+
+    req.session.user = {
+      first_name: req.user.first_name,
+      last_name: req.user.last_name,
+      email: req.user.email,
+      birthdate: req.user.birthdate,
+      role: req.user.role,
+      userID: req.user._id,
+      auth: true,
+    };
+
+    res.send({ status: "OK" });
+  }
+);
 
 //VALIDAR UN USUARIO
-router.post("/login", async (req, res) => {
-  const user = new MongoUserManager();
-  const result = await user.authenticate(req.body);
+// router.post("/login", async (req, res) => {
+//   const user = new MongoUserManager();
+//   const result = await user.authenticate(req.body);
 
-  req.session.email = result.user.resultFiltered.email;
-  req.session.first_name = result.user.resultFiltered.first_name;
-  req.session.last_name = result.user.resultFiltered.last_name;
-  req.session.birthdate = result.user.resultFiltered.birthdate;
-  req.session.role = result.user.resultFiltered.role;
-  req.session.userID = result.user.resultFiltered.userID;
-  const cart = new MongoCartManager();
-  const carrito = await cart.getCart({
-    user: result.user.resultFiltered.userID,
-  });
-  if (carrito) {
-    req.session.cart = carrito._id;
-  }
+//   if (result.status == "OK") {
+//     req.session.email = result.user.resultFiltered.email;
+//     req.session.first_name = result.user.resultFiltered.first_name;
+//     req.session.last_name = result.user.resultFiltered.last_name;
+//     req.session.birthdate = result.user.resultFiltered.birthdate;
+//     req.session.role = result.user.resultFiltered.role;
+//     req.session.userID = result.user.resultFiltered.userID;
+//     req.session.auth = true;
 
-  res.send(result);
-});
+//     const cart = new MongoCartManager();
+//     const carrito = await cart.getCart({
+//       user: result.user.resultFiltered.userID,
+//     });
+//     if (carrito) {
+//       req.session.cart = carrito._id;
+//     }
+//   }
+//   res.send(result);
+// });
 
 //ELIMINAR LA SESIÓN
 

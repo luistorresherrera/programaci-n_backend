@@ -17,6 +17,8 @@ import accountRouter from "./routes/account.route.js";
 import session from "express-session";
 import FileStore from "session-file-store";
 import MongoStore from "connect-mongo";
+import passport from "passport";
+import initializePassport from "./config/passport.config.js";
 
 const app = express();
 const port = 8080;
@@ -60,10 +62,13 @@ app.use(
     }),
     retries: 0,
     secret: `secretCoder`,
-    resave: false,
+    resave: true,
     saveUninitialized: true,
   })
 );
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 //SETEAR MOTOR DE PLANTILLAS
 app.engine("handlebars", handlebars.engine());

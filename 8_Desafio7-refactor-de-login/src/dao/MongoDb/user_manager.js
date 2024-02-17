@@ -1,4 +1,7 @@
 import userModel from "../../models/users.model.js";
+import bcrytFunctions from "../../utils/hashBcrypt.js";
+
+const { isValidPassword } = bcrytFunctions;
 
 //Creación de clase UserManager
 class MongoUserManager {
@@ -35,6 +38,7 @@ class MongoUserManager {
           age: edad,
           id: result._id,
         };
+
         return {
           status: "OK",
           message: "Usuario validado",
@@ -79,8 +83,12 @@ class MongoUserManager {
   //Método para traer solo un usuario
   async authenticate(filter) {
     try {
-      const result = await userModel.findOne(filter);
-      if (result) {
+      const nuevaPassword = filter.password;
+
+      const result = await userModel.findOne({ email: filter.email });
+
+      // console.log(isValidPassword(nuevaPassword, result.password));
+      if (isValidPassword(nuevaPassword, result.password)) {
         const resultFiltered = {
           first_name: result.first_name,
           last_name: result.last_name,
@@ -89,6 +97,7 @@ class MongoUserManager {
           role: result.role,
           userID: result._id,
         };
+
         return {
           status: "OK",
           message: "Usuario validado",

@@ -5,7 +5,7 @@ const router = Router();
 
 //RENDERIZAR ACCOUNT
 router.get("/", auth, async (req, res) => {
-  const birthdateCookie = req.session.birthdate;
+  const birthdateCookie = req.session.user.birthdate;
 
   const date = new Date();
   const DD = birthdateCookie.substr(8, 2);
@@ -15,11 +15,11 @@ router.get("/", auth, async (req, res) => {
   const edad = date.getFullYear() - Number(YYYY);
 
   const result = {
-    email: req.session.email,
-    first_name: req.session.first_name,
-    last_name: req.session.last_name,
+    email: req.session.user.email,
+    first_name: req.session.user.first_name,
+    last_name: req.session.user.last_name,
     birthdate: `${birthdate} (${edad} años)`,
-    role: req.session.role,
+    role: req.session.user.role,
   };
 
   return res.render("account", result);
