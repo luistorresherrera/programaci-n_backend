@@ -1,8 +1,9 @@
 import userModel from "../../models/users.model.js";
 import bcrytFunctions from "../../utils/hashBcrypt.js";
+import generateTokenFunction from "../../utils/jsonwebtoken.js";
 
 const { isValidPassword } = bcrytFunctions;
-
+const { generateToken } = generateTokenFunction;
 //Creación de clase UserManager
 class MongoUserManager {
   constructor() {}
@@ -87,7 +88,6 @@ class MongoUserManager {
 
       const result = await userModel.findOne({ email: filter.email });
 
-      // console.log(isValidPassword(nuevaPassword, result.password));
       if (isValidPassword(nuevaPassword, result.password)) {
         const resultFiltered = {
           first_name: result.first_name,
@@ -98,10 +98,16 @@ class MongoUserManager {
           userID: result._id,
         };
 
+        const token = generateToken({
+          fullname: `${result.first_name} ${result.last_name}`,
+          id: result._id,
+        });
+
         return {
           status: "OK",
           message: "Usuario validado",
           user: { resultFiltered },
+          token: token,
         };
       }
       return { status: "ERROR", message: "Email y/o contraseña incorrectos" };

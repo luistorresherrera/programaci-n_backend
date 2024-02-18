@@ -4,9 +4,9 @@ import MongoUserManager from "../dao/MongoDb/user_manager.js";
 import MongoCartManager from "../dao/MongoDb/cart_manager.js";
 import auth from "../middleware/authentication.middleware.js";
 import bcrytFunctions from "../utils/hashBcrypt.js";
-
+import jsonwebtokenFunctions from "../utils/jsonwebtoken.js";
 import passport from "passport";
-
+const { generateToken, authTokenMiddleware } = jsonwebtokenFunctions;
 const { createHash } = bcrytFunctions;
 
 //CREAR UN USUARIO
@@ -27,9 +27,19 @@ const { createHash } = bcrytFunctions;
 //   };
 //   const user = new MongoUserManager();
 //   const result = await user.addUser(newUser);
+//   if (result.status == "ERROR") {
+//     return res.send(result);
+//   }
+//   const token = generateToken({
+//     fullname: `${first_name} ${last_name}`,
+//     id: result.message.result._id,
+//   });
+//   result.token = token;
+//   console.log(result);
 //   res.send(result);
 // });
 
+//REGISTER CON PASSPORT
 router.post(
   "/register",
   passport.authenticate("register", {
@@ -61,6 +71,7 @@ router.get(
   }
 );
 
+//LOGIN CON PASSPORT
 router.post(
   "/login",
   passport.authenticate("login", {
@@ -86,9 +97,10 @@ router.post(
   }
 );
 
-//VALIDAR UN USUARIO
+//VALIDAR UN USUARIO -> LOGIN
 // router.post("/login", async (req, res) => {
 //   const user = new MongoUserManager();
+
 //   const result = await user.authenticate(req.body);
 
 //   if (result.status == "OK") {
@@ -108,6 +120,7 @@ router.post(
 //       req.session.cart = carrito._id;
 //     }
 //   }
+//   console.log(result);
 //   res.send(result);
 // });
 
@@ -120,11 +133,7 @@ router.get("/logout", auth, (req, res) => {
   });
 });
 
-router.get("/current", auth, (req, res) => {
-  res.send("datos sesibles");
-});
-
-router.get("/current", auth, (req, res) => {
+router.get("/current", authTokenMiddleware, (req, res) => {
   res.send("datos sesibles");
 });
 
