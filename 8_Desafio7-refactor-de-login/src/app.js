@@ -156,7 +156,7 @@ app.use("/api/carts", cartsRouter);
 
 //RENDERIZAR LA PAGINA PRINCIPAL (RAIZ DEL LOCALHOST) -> Para el ejercicio redireccionará a home
 app.get("/", (req, res) => {
-  res.render("home");
+  res.render("login");
 });
 
 //RENDERIZAR LA PAGINA DE REAL TIME PRODUCTS

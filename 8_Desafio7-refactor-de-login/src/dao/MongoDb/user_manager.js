@@ -96,6 +96,7 @@ class MongoUserManager {
           birthdate: result.birthdate,
           role: result.role,
           userID: result._id,
+          role: result.role,
         };
 
         const token = generateToken({

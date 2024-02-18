@@ -19,23 +19,38 @@ router.post("/register", async (req, res, next) => {
 
 //VALIDAR UN USUARIO
 router.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+  if (email == "adminCoder@coder.com" && password == "adminCod3r123") {
+    req.session.email = "adminCoder@coder.com";
+    req.session.first_name = "Admin";
+    req.session.last_name = "Coder";
+    req.session.birthdate = "1989-08-08T00:00:00.000+00:00";
+    req.session.role = "admin";
+    req.session.userID = 1;
+    const result = {
+      status: "OK",
+    };
+    return res.send(result);
+  }
+
   const user = new MongoUserManager();
   const result = await user.authenticate(req.body);
 
-  req.session.email = result.user.resultFiltered.email;
-  req.session.first_name = result.user.resultFiltered.first_name;
-  req.session.last_name = result.user.resultFiltered.last_name;
-  req.session.birthdate = result.user.resultFiltered.birthdate;
-  req.session.role = result.user.resultFiltered.role;
-  req.session.userID = result.user.resultFiltered.userID;
-  const cart = new MongoCartManager();
-  const carrito = await cart.getCart({
-    user: result.user.resultFiltered.userID,
-  });
-  if (carrito) {
-    req.session.cart = carrito._id;
+  if (result.status == "OK") {
+    req.session.email = result.user.resultFiltered.email;
+    req.session.first_name = result.user.resultFiltered.first_name;
+    req.session.last_name = result.user.resultFiltered.last_name;
+    req.session.birthdate = result.user.resultFiltered.birthdate;
+    req.session.role = result.user.resultFiltered.role;
+    req.session.userID = result.user.resultFiltered.userID;
+    const cart = new MongoCartManager();
+    const carrito = await cart.getCart({
+      user: result.user.resultFiltered.userID,
+    });
+    if (carrito) {
+      req.session.cart = carrito._id;
+    }
   }
-
   res.send(result);
 });
 

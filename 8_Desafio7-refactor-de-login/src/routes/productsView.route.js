@@ -106,6 +106,7 @@ router.get("/", auth, async (req, res) => {
       nextPage,
       page,
       userName: `${req.session.user.first_name} ${req.session.user.last_name}`,
+      role: req.session.user.role,
     });
   } catch (error) {
     console.log(error);

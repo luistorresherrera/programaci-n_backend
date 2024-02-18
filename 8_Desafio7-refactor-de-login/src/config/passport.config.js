@@ -57,7 +57,7 @@ const initializePassport = () => {
           if (!isValidPassword(password, user.password)) {
             return done(null, false);
           }
-
+          console.log("Usuario encontrado");
           return done(null, user);
         } catch (error) {
           done(error);
@@ -89,6 +89,7 @@ const initializePassport = () => {
             first_name: profile._json.name,
             last_name: profile._json.name,
             email: profile._json.email,
+            role: "user",
 
             password: "",
             birthdate: "1993-09-22T00:00:00.000+00:00",

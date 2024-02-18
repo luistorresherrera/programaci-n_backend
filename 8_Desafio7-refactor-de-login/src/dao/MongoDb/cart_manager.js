@@ -58,8 +58,8 @@ class MongoCartManager {
       const productSelected = await productModel.findOne({ _id: p_id });
 
       const cartSelected = await cartModel.findOne({ _id: cid });
-      console.log("cid: " + cid);
-      console.log("pid: " + p_id);
+      // console.log("cid: " + cid);
+      // console.log("pid: " + p_id);
       const objetoProducto = cartSelected.products.find(
         (p) => p.product._id == p_id
       );
@@ -74,7 +74,10 @@ class MongoCartManager {
 
         await cartModel.findOneAndUpdate({ _id: cid }, { cartSelected });
         await cartSelected.save();
-        return `Se agregó el primer producto de ID: ${p_id}  al carrito de ID ${cid}`;
+        return {
+          status: "OK",
+          message: `Se agregó el primer producto de ID: ${p_id}  al carrito de ID ${cid}`,
+        };
       }
 
       cartSelected.products[indexObjetoProduct].quantity += 1;
@@ -82,7 +85,10 @@ class MongoCartManager {
       await cartModel.findOneAndUpdate({ _id: cid }, { cartSelected });
       await cartSelected.save();
 
-      return `Se agregó otro producto de ID: ${p_id}  al carrito de ID ${cid}`;
+      return {
+        status: "OK",
+        message: `Se agregó otro producto de ID: ${p_id}  al carrito de ID ${cid}`,
+      };
     } catch (err) {
       console.log("Hubo un error: ", err);
       return false;

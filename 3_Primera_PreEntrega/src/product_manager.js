@@ -40,9 +40,7 @@ class ProductManager {
         !product.code ||
         !product.stock
       ) {
-        return console.log(
-          "Por favor completar los campos del producto a agregar."
-        );
+        return "Por favor completar los campos del producto a agregar.";
       }
       // Si el código de producto no existe
       if (existeCodigo == false) {
@@ -51,7 +49,7 @@ class ProductManager {
           this.products.push({ ...product, id: 1 });
           await this.grabarProductosEnArchivo(this.products);
 
-          return console.log("Se agregó el producto correctamente.");
+          return "Se agregó el producto correctamente.";
         } else {
           // Si el array traido del archivo tiene uno o más productos, entonces agreguemos el producto encontrado
           await arrayProductos.map((item) => {
@@ -64,15 +62,13 @@ class ProductManager {
 
           await this.grabarProductosEnArchivo(this.products);
 
-          return console.log("Se agregó el producto correctamente.");
+          return "Se agregó el producto correctamente.";
         }
       } else {
-        return console.log(
-          "No se puede crear el producto porque ya existe el código."
-        );
+        return "No se puede crear el producto porque ya existe el código.";
       }
     } catch (error) {
-      console.log("Hemos encontrado un error: ", error);
+      return "Hemos encontrado un error: ", error;
     }
   }
 
@@ -132,10 +128,10 @@ class ProductManager {
         // grabar el array de productos en el archivo
         this.grabarProductosEnArchivo(this.products);
       } else {
-        console.log("No se pudo actualizar el producto");
+        return "No se pudo actualizar el producto";
       }
     } catch (error) {
-      console.log(`Hubo un error: ${error}`);
+      return `Hubo un error: ${error}`;
     }
   }
 

@@ -5,12 +5,17 @@ const addToCart = async (p_id) => {
       "Content-Type": "application/json",
     },
   }).then((res) => res.json());
+  return response;
 };
 
 const btnAddToCart = document.querySelectorAll("#btn_addToCart");
 btnAddToCart.forEach((element) => {
-  element.addEventListener("click", (event) => {
-    addToCart(event.target.name);
+  element.addEventListener("click", async (event) => {
+    const productAdded = await addToCart(event.target.name);
+    if (productAdded.status == "OK") {
+      return alert(productAdded.message);
+    }
+    return alert("No se pudo agregar el producto.");
   });
 });
 

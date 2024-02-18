@@ -10,7 +10,7 @@ import auth from "../middleware/authentication.middleware.js";
 
 // //TRAER UN CART POR ID
 router.get("/", auth, async (req, res) => {
-  const cid = req.session.cart;
+  const cid = req.session.user.cart;
   const prod = new MongoCartManager();
 
   const cart = await prod.getCart({ _id: cid });

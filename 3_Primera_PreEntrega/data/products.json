@@ -104,8 +104,8 @@
     "description": "SUV",
     "price": "18000",
     "thumbnail": "url11",
-    "code": "TOYRAV4",
-    "stock": "4",
+    "code": "MERBENZ200",
+    "stock": 10,
     "id": 11,
     "status": 1
   },
@@ -128,5 +128,15 @@
     "stock": "3",
     "status": 1,
     "id": 13
+  },
+  {
+    "title": "Mercedes Benz GLA 200",
+    "description": "Es una camioneta SUV con motor 2.0",
+    "price": "60000",
+    "thumbnail": "https://cdn.motor1.com/images/mgl/4M00Y/s3/mercedes-benz-gla-2020.webp",
+    "code": "GLA200",
+    "stock": "30",
+    "status": 1,
+    "id": 14
   }
 ]

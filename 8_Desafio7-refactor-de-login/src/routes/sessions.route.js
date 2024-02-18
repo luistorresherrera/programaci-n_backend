@@ -46,6 +46,9 @@ router.post(
     failureRedirect: "/api/sessions/failregister",
   }),
   async (req, res) => {
+    const cart = new MongoCartManager();
+    const result = await cart.createCart(req.user._id);
+    req.session.cart = result._id;
     res.send({ status: "OK" });
   }
 );
@@ -82,6 +85,8 @@ router.post(
       return res
         .status(401)
         .send({ status: "ERROR", message: "No autorizado" });
+    const cart = new MongoCartManager();
+    const cartResult = await cart.getCart({ user: req.user._id });
 
     req.session.user = {
       first_name: req.user.first_name,
@@ -90,9 +95,9 @@ router.post(
       birthdate: req.user.birthdate,
       role: req.user.role,
       userID: req.user._id,
-      auth: true,
+      cart: cartResult._id,
     };
-
+    console.log(req.session);
     res.send({ status: "OK" });
   }
 );

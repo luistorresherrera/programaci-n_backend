@@ -36,8 +36,8 @@ router.post("/", async (req, res) => {
 //AGREGAR UN PRODUCTO AL CARRITO DE COMPRAS
 router.post("/product/:pid", async (req, res) => {
   const { pid } = req.params;
-  const cid = req.session.cart;
-  console.log("Cid: " + cid);
+  const cid = req.session.user.cart;
+
   const cart = new MongoCartManager();
   if (cid != undefined) {
     const result = await cart.addProductToCart(cid, pid);

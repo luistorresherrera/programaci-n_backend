@@ -143,7 +143,9 @@ class ProductManager {
 
 //---->CÓDIGO PARA PRUEBAS DE FUNCIONAMIENTO<------
 const ejecutarEjemplo = async () => {
-  let prod = new ProductManager("./Desafio_2/data/products.json");
+  let prod = new ProductManager(
+    "./1_Desafio2-manejo-de-archivos/data/products.json"
+  );
 
   //Probar el método addProduct
   // await prod.addProduct({
@@ -176,10 +178,10 @@ const ejecutarEjemplo = async () => {
   //Probar el método updateProduct
   // await prod.updateProduct(3, "code", "AUS3");
   // await prod.updateProduct(3, "price", 52000);
-  // await prod.updateProduct(3, "xxx", 52000);
+  // await prod.updateProduct(3, "stock", 20);
 
   //Probar el método getProductsById
-  // console.log(await prod.getProductsById(3));
+  console.log(await prod.getProductsById(3));
 
   //Probar el método getProducts
 
