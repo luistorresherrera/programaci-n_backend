@@ -1,0 +1,33 @@
+<div class="managerContainer" id="managerContainer">
+
+  <div class="managers">
+    <div class="chatContainer">
+      <h2>Registrate en el chat</h2>
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" />
+      <input
+        type="submit"
+        class="lockEmail"
+        id="lockEmail"
+        value="Registrar email"
+      />
+    </div>
+  </div>
+</div>
+<hr />
+<div><h1>Chat en tiempo real</h1></div>
+<hr />
+
+<div class="messagesContainer" id="messsagesContainer">
+  <div class="messagesArea" id="messagesArea">
+    TODAVÍA NO SE PUEDEN VER LOS MENSAJES
+  </div>
+
+  <div class="inputMessage">
+    <input type="input" id="message" name="message" class="messagebox" />
+    <input type="submit" class="sendMessage" id="sendMessage" value="Enviar" />
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/chat.js"></script>
