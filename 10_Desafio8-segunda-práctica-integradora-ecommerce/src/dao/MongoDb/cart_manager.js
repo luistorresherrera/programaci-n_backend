@@ -10,7 +10,7 @@ class MongoCartManager {
   //Método crear cart
   async createCart() {
     try {
-      const cartCreated = cartModel.create({
+      const cartCreated = await cartModel.create({
         products: [],
       });
 

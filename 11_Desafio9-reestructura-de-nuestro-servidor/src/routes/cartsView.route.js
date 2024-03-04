@@ -7,10 +7,13 @@ import ProductManager from "../dao/FileSystem/product_manager.js";
 import MongoCartManager from "../dao/MongoDb/cart_manager.js";
 import cartModel from "../models/carts.model.js";
 import auth from "../middleware/authentication.middleware.js";
+import jsonwebtokenFunctions from "../utils/jsonwebtoken.js";
+
+const { generateToken, authTokenMiddleware } = jsonwebtokenFunctions;
 
 // //TRAER UN CART POR ID
-router.get("/", auth, async (req, res) => {
-  const cid = req.session.user.cart;
+router.get("/", authTokenMiddleware, async (req, res) => {
+  const cid = req.user.cart;
   const prod = new MongoCartManager();
 
   const cart = await prod.getCart({ _id: cid });

@@ -60,7 +60,7 @@ class MongoUserManager {
         (await userModel.find({ email: user.email }).countDocuments({})) != 0
           ? true
           : false;
-
+      console.log(user);
       if (!existeEmail) {
         const result = await userModel.create(user);
         return {
@@ -85,6 +85,11 @@ class MongoUserManager {
   async authenticate(filter) {
     try {
       const nuevaPassword = filter.password;
+      const usuario = filter.email;
+
+      if (!nuevaPassword || !usuario) {
+        return { status: "ERROR", message: "Email y/o contraseña incorrectos" };
+      }
 
       const result = await userModel.findOne({ email: filter.email });
 
@@ -97,17 +102,15 @@ class MongoUserManager {
           role: result.role,
           userID: result._id,
           role: result.role,
+          cart: result.cart,
         };
 
-        const token = generateToken({
-          fullname: `${result.first_name} ${result.last_name}`,
-          id: result._id,
-        });
+        const token = generateToken(resultFiltered);
 
         return {
           status: "OK",
           message: "Usuario validado",
-          user: { resultFiltered },
+          // user: { resultFiltered },
           token: token,
         };
       }

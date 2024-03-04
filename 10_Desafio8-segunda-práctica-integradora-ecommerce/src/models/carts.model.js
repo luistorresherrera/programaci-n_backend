@@ -12,6 +12,13 @@ const cartsSchema = new mongoose.Schema({
     ],
     required: false,
   },
+  id: {
+    type: String,
+    required: true,
+    unique: true,
+    index: true,
+    default: Date.now(),
+  },
 });
 
 cartsSchema.pre("findOne", function () {

@@ -52,9 +52,9 @@ app.use(
     saveUninitialized: true,
   })
 );
-initializePassport();
-app.use(passport.initialize());
-app.use(passport.session());
+// initializePassport();
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 //SETEAR MOTOR DE PLANTILLAS
 app.engine("handlebars", handlebars.engine());

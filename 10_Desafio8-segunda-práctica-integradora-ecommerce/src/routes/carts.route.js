@@ -6,10 +6,13 @@ const fileDataProducts = "./data/products.json";
 import ProductManager from "../dao/FileSystem/product_manager.js";
 import MongoCartManager from "../dao/MongoDb/cart_manager.js";
 import MongoUserManager from "../dao/MongoDb/user_manager.js";
+import jsonwebtokenFunctions from "../utils/jsonwebtoken.js";
+
+const { generateToken, authTokenMiddleware } = jsonwebtokenFunctions;
 
 // //TRAER UN CART POR ID
-router.get("/", async (req, res) => {
-  const cid = req.session.cart;
+router.get("/", authTokenMiddleware, async (req, res) => {
+  const cid = req.user.cart;
   const cart = new MongoCartManager();
 
   return res.status(200).send(await cart.getCart(cid));
@@ -34,20 +37,14 @@ router.post("/", async (req, res) => {
 });
 
 //AGREGAR UN PRODUCTO AL CARRITO DE COMPRAS
-router.post("/product/:pid", async (req, res) => {
+router.post("/product/:pid", authTokenMiddleware, async (req, res) => {
   const { pid } = req.params;
-  const cid = req.session.user.cart;
+  const cid = req.user.cart;
 
   const cart = new MongoCartManager();
   if (cid != undefined) {
     const result = await cart.addProductToCart(cid, pid);
     return res.status(200).send(result);
-  } else {
-    console.log("Entre");
-    const carrito = await cart.createCart(req.session.userID);
-    req.session.cart = carrito._id;
-    const resultProduct = await cart.addProductToCart(carrito._id, pid);
-    return res.status(200).send(resultProduct);
   }
 });
 

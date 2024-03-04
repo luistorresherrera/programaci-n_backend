@@ -4,9 +4,12 @@ const router = Router();
 import MongoProductManager from "../dao/MongoDb/product_manager.js";
 import productModel from "../models/products.model.js";
 import auth from "../middleware/authentication.middleware.js";
+import jsonwebtokenFunctions from "../utils/jsonwebtoken.js";
+
+const { generateToken, authTokenMiddleware } = jsonwebtokenFunctions;
 
 //PRODUCT DETAIL
-router.get("/:pid", auth, async (req, res) => {
+router.get("/:pid", authTokenMiddleware, async (req, res) => {
   try {
     const { pid } = req.params;
 
@@ -26,7 +29,7 @@ router.get("/:pid", auth, async (req, res) => {
 });
 
 //TRAER TODOS LOS PRODUCTOS POR PARAMETRO DE URL
-router.get("/", auth, async (req, res) => {
+router.get("/", authTokenMiddleware, async (req, res) => {
   try {
     let { limit = 10, pageSearch = 1, sort, query } = req.query;
 
@@ -105,8 +108,8 @@ router.get("/", auth, async (req, res) => {
       prevPage,
       nextPage,
       page,
-      userName: `${req.session.user.first_name} ${req.session.user.last_name}`,
-      role: req.session.user.role,
+      userName: `${req.user.first_name} ${req.user.last_name}`,
+      role: req.user.role,
     });
   } catch (error) {
     console.log(error);

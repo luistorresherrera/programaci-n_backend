@@ -3,19 +3,22 @@ import configFunctions from "../config/connectDB.js";
 
 const { configObject } = configFunctions;
 
-const private_key = configObject.jwt_secret_Key;
+// const private_key = configObject.jwt_secret_Key;
+const private_key =
+  "EstaDeberíaSerAlgunaPalabraSecretaQueDeberíaEstarEnVariablesDeEntorno";
 
 //no guardar datos sensibles
 
 const generateToken = (user) => {
-  console.log(1);
-  const token = jwt.sign(user, private_key);
+  const token = jwt.sign(user, private_key, { expiresIn: "24h" });
+
   return token;
 };
 
 const authTokenMiddleware = (req, res, next) => {
-  const authHeader = req.headers["authorization"];
-
+  // const authHeader = req.headers["authorization"];
+  const authHeader = "BEARER " + req.cookies.cookieToken;
+  console.log(authHeader);
   if (!authHeader) return res.status(401).send("No autorizado. No hay token");
   // {"Authorization": "BEARER dfsdofjweofwefsfsd.44r.fwef" }
   const token = authHeader.split(" ")[1];

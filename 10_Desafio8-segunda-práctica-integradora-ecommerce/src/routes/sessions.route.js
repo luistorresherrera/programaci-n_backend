@@ -21,8 +21,8 @@ router.post("/register", async (req, res) => {
 
   const cartManager = new MongoCartManager();
 
-  const newCart = await cartManager.createCart();
-
+  let newCart = await cartManager.createCart();
+  console.log(newCart);
   const newUser = {
     first_name,
     last_name,
@@ -39,8 +39,13 @@ router.post("/register", async (req, res) => {
   }
 
   const token = generateToken({
-    fullname: `${first_name} ${last_name}`,
+    first_name: result.message.result.first_name,
+    last_name: result.message.result.last_name,
     id: result.message.result._id,
+    email: result.message.result.email,
+    birthdate: result.message.result.birthdate,
+    cart: result.message.result.cart,
+    role: result.message.result.role,
   });
   result.token = token;
 
@@ -65,77 +70,70 @@ router.post("/register", async (req, res) => {
 //   res.send({ error: "failregister" });
 // });
 
-router.get(
-  "/github",
-  passport.authenticate("github", { scope: ["user:email"] }),
-  (req, res) => {}
-);
+// router.get(
+//   "/github",
+//   passport.authenticate("github", { scope: ["user:email"] }),
+//   (req, res) => {}
+// );
 
-router.get(
-  "/githubcallback",
-  passport.authenticate("github", {
-    failureRedirect: "/login",
-  }),
-  (req, res) => {
-    req.session.user = req.user;
-    res.redirect("/products");
-  }
-);
+// router.get(
+//   "/githubcallback",
+//   passport.authenticate("github", {
+//     failureRedirect: "/login",
+//   }),
+//   (req, res) => {
+//     req.session.user = req.user;
+//     res.redirect("/products");
+//   }
+// );
 
 //LOGIN CON PASSPORT
-router.post(
-  "/login",
-  passport.authenticate("login", {
-    failureRedirect: "/api/sessions/failregister",
-  }),
-  async (req, res) => {
-    if (!req.user)
-      return res
-        .status(401)
-        .send({ status: "ERROR", message: "No autorizado" });
-    const cart = new MongoCartManager();
-    const cartResult = await cart.getCart({ user: req.user._id });
+// router.post(
+//   "/login",
+//   passport.authenticate("login", {
+//     failureRedirect: "/api/sessions/failregister",
+//   }),
+//   async (req, res) => {
+//     if (!req.user)
+//       return res
+//         .status(401)
+//         .send({ status: "ERROR", message: "No autorizado" });
+//     const cart = new MongoCartManager();
+//     const cartResult = await cart.getCart({ user: req.user._id });
 
-    req.session.user = {
-      first_name: req.user.first_name,
-      last_name: req.user.last_name,
-      email: req.user.email,
-      birthdate: req.user.birthdate,
-      role: req.user.role,
-      userID: req.user._id,
-      cart: cartResult._id,
-    };
-    console.log(req.session);
-    res.send({ status: "OK" });
-  }
-);
+//     req.session.user = {
+//       first_name: req.user.first_name,
+//       last_name: req.user.last_name,
+//       email: req.user.email,
+//       birthdate: req.user.birthdate,
+//       role: req.user.role,
+//       userID: req.user._id,
+//       cart: cartResult._id,
+//     };
+//     console.log(req.session);
+//     res.send({ status: "OK" });
+//   }
+// );
 
 //VALIDAR UN USUARIO -> LOGIN
-// router.post("/login", async (req, res) => {
-//   const user = new MongoUserManager();
+router.post("/login", async (req, res) => {
+  const user = new MongoUserManager();
 
-//   const result = await user.authenticate(req.body);
+  const result = await user.authenticate(req.body);
+  // req.cookies.cookieToken = result.token;
+  if (result.status == "OK") {
+    // req.session.email = result.user.resultFiltered.email;
+    // req.session.first_name = result.user.resultFiltered.first_name;
+    // req.session.last_name = result.user.resultFiltered.last_name;
+    // req.session.birthdate = result.user.resultFiltered.birthdate;
+    // req.session.role = result.user.resultFiltered.role;
+    // req.session.userID = result.user.resultFiltered.userID;
+    // req.session.cart = result.user.resultFiltered.cart;
+  }
 
-//   if (result.status == "OK") {
-//     req.session.email = result.user.resultFiltered.email;
-//     req.session.first_name = result.user.resultFiltered.first_name;
-//     req.session.last_name = result.user.resultFiltered.last_name;
-//     req.session.birthdate = result.user.resultFiltered.birthdate;
-//     req.session.role = result.user.resultFiltered.role;
-//     req.session.userID = result.user.resultFiltered.userID;
-//     req.session.auth = true;
-
-//     const cart = new MongoCartManager();
-//     const carrito = await cart.getCart({
-//       user: result.user.resultFiltered.userID,
-//     });
-//     if (carrito) {
-//       req.session.cart = carrito._id;
-//     }
-//   }
-//   console.log(result);
-//   res.send(result);
-// });
+  console.log(result);
+  res.cookie("cookieToken", result.token).send(result);
+});
 
 //ELIMINAR LA SESIÓN
 
