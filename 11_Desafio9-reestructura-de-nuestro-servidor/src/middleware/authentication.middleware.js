@@ -2,7 +2,7 @@ import MongoUserManager from "../dao/MongoDb/user_manager.js";
 
 async function auth(req, res, next) {
   if (req.session.user) {
-    console.log("Hay sesión");
+    // console.log("Hay sesión");
     return next();
   } else {
     res.render("login", {

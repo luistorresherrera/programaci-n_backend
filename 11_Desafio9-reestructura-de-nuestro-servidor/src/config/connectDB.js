@@ -5,15 +5,13 @@ import program from "../utils/commander.js";
 dotenv.config();
 
 const configObject = {
-  port: process.env.PORT || 8080,
+  port: process.env.PORT,
   jwt_secret_Key: process.env.JWT_SECRET_KEY,
 };
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(
-      "mongodb+srv://luistorresAdmin:La08081989$@codercluster.po3gvlq.mongodb.net/ecommerce?retryWrites=true&w=majority"
-    );
+    await mongoose.connect(process.env.MONGO_URL);
     console.log("Base de datos conectada");
   } catch (error) {
     console.log(error);

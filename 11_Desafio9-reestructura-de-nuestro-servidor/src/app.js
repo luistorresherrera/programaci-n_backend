@@ -18,6 +18,9 @@ import session from "express-session";
 import MongoStore from "connect-mongo";
 import passport from "passport";
 import initializePassport from "./config/passport.config.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const { connectDB, configObject } = functionConnectDB;
 
@@ -31,15 +34,14 @@ connectDB();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("./public"));
-app.use(cookieParser(`@$La08081989$@`));
+app.use(cookieParser(process.env.COOKIE_PARSER));
 
 //GUARDAR SESIONES EN MONGO
 
 app.use(
   session({
     store: MongoStore.create({
-      mongoUrl:
-        "mongodb+srv://luistorresAdmin:La08081989$@codercluster.po3gvlq.mongodb.net/ecommerce?retryWrites=true&w=majority",
+      mongoUrl: process.env.MONGO_URL,
       mongoOptions: {
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -47,7 +49,7 @@ app.use(
       ttl: 24 * 60 * 60 * 1000,
     }),
     retries: 0,
-    secret: `secretCoder`,
+    secret: process.env.SESSION_SECRET,
     resave: true,
     saveUninitialized: true,
   })

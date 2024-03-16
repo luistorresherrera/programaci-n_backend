@@ -4,9 +4,11 @@ import userModel from "../models/users.model.js";
 import MongoUserManager from "../dao/MongoDb/user_manager.js";
 import bcrytFunctions from "../utils/hashBcrypt.js";
 import GithubStrategy from "passport-github2";
+import dotenv from "dotenv";
 
 const { createHash, isValidPassword } = bcrytFunctions;
 const localStrategy = local.Strategy;
+dotenv.config();
 const initializePassport = () => {
   passport.use(
     "register",
@@ -71,7 +73,7 @@ const initializePassport = () => {
     new GithubStrategy(
       {
         clientID: "Iv1.5982bf4f00fabec6",
-        clientSecret: "ac42385324a27885c02681429579244d58d2afad",
+        clientSecret: process.env.GITHUB_CLIENT_SECRET,
         callbackURL: "http://localhost:8080/api/sessions/githubcallback",
       },
       async (accessToken, refreshToken, profile, done) => {
