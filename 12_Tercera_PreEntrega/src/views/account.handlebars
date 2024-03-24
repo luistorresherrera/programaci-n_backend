@@ -1,0 +1,83 @@
+<div class="accountPageContainer">
+  <div class="header-2"><div class="headerBorder" style="text-align: left;"><img
+        src="../images/logo.png"
+      /></div><div class="headerMiddle">Tienda de vehículos de lujo</div><div
+    class="headerBorder"
+    style="text-align: right;"
+  ><a onclick="history.back()" style="cursor: pointer;">Regresar</a><a
+      onclick="window.location.href = '../cart'"
+      style="cursor: pointer;"
+    ><img src="../images/cart.png" alt="Cart" style="cursor:pointer;" /></a>
+</div></div>
+  {{#if this }}
+  <div
+    class="loginContainer col-10 col-sm-9 col-md-5 col-lg-4 col-xl-3 col-xxl-3"
+  >
+    <div class="loginHeader"><h2>Datos de mi cuenta</h2></div>
+    <div class="loginBody">
+
+      <label for="first_name">Nombres:</label>
+      <input
+        type="text"
+        id="first_name"
+        name="first_name"
+        placeholder="Tus nombres"
+        disabled="true"
+        value="{{this.first_name}}"
+      />
+      <label for="last_name">Apellidos:</label>
+      <input
+        type="text"
+        id="last_name"
+        name="last_name"
+        placeholder="Tus apellidos"
+        disabled="true"
+        value="{{this.last_name}}"
+      />
+      <label for="birthdate">Fecha de nacimiento:</label>
+        <input
+          type="text"
+          id="birthdate"
+          name="birthdate"
+          disabled="true"
+          placeholder="DD/MM/AAAA"
+          value="{{this.birthdate}}"
+        />
+      <label for="email">Email:</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="tumail@mail.com"
+        disabled="true"
+        value="{{this.email}}"
+      />
+      <label for="email">Rol:</label>
+      <input
+        type="text"
+        id="role"
+        name="role"
+        placeholder="Tu rol"
+        disabled="true"
+        value="{{this.role}}"
+      />
+
+    </div>
+    <div class="loginFooter"></div>
+    {{/if}}
+  </div>
+  <button type="button" id="btn_logout" onclick="window.location.href = '../api/sessions/logout'">Cerrar sesión</button>
+
+</div>
+
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+  crossorigin="anonymous"
+/>
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+  crossorigin="anonymous"
+></script>
